@@ -8,12 +8,12 @@
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AssemblyName>Digger</AssemblyName>
     <RootNamespace>Digger</RootNamespace>
-    <OutputPath>Web\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <OutputType>Library</OutputType>
     <DefaultClrNameSpace>Digger</DefaultClrNameSpace>
     <NoStdLib>true</NoStdLib>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <StartPageUrl>Web\Default.htm</StartPageUrl>
+    <TestPageFileName>..\Build\Default.htm</TestPageFileName>
     <XapOutputs>true</XapOutputs>
     <XapFilename>Digger.xap</XapFilename>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
@@ -24,7 +24,7 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System.Windows" />
-    <None Include="Web\Default.htm" />
+    <Content Include="Default.htm" />
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationWindow.cs" />
     <Compile Include="Engine.cs" />
