@@ -1,4 +1,5 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{760F6C48-355A-460C-8646-3313BE5850A4}</ProjectGuid>
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
@@ -8,23 +9,27 @@
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AssemblyName>Digger</AssemblyName>
     <RootNamespace>Digger</RootNamespace>
-    <OutputPath>..\Build\</OutputPath>
     <OutputType>Library</OutputType>
     <DefaultClrNameSpace>Digger</DefaultClrNameSpace>
     <NoStdLib>true</NoStdLib>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OutputPath>..\Build\</OutputPath>
     <TestPageFileName>..\Build\Default.htm</TestPageFileName>
     <XapOutputs>true</XapOutputs>
     <XapFilename>Digger.xap</XapFilename>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <SilverlightApplication>true</SilverlightApplication>
     <SilverlightManifestTemplate>AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>Digger.Application</SilverlightAppEntry>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
   </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\v2.0\Microsoft.Silverlight.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System.Windows" />
-    <Content Include="Default.htm" />
+    <None Include="Default.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationWindow.cs" />
     <Compile Include="Engine.cs" />
@@ -32,11 +37,4 @@
     <EmbeddedResource Include="Font.bin" />
     <EmbeddedResource Include="Sprites.bin" />
   </ItemGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
-        <WebProjectProperties />
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>
