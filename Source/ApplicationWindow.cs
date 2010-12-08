@@ -36,6 +36,8 @@ namespace Digger
 				stream.Read(data, 0, (int)stream.Length);
 				this.engine = new Engine(data);
 			}
+
+			this.Initialize();
 		}
 
 		private void Page_Loaded(object sender, EventArgs e)
@@ -61,14 +63,11 @@ namespace Digger
 			this.fontLoader = new ImageLoader("Digger.Font.bin", 59);
 
 			this.InitializeStatusBar();
-
 			this.Paint();
 		}
 
 		private void Page_KeyDown(object sender, KeyEventArgs e)
 		{
-			this.Initialize();
-
 			switch (e.Key)
 			{
 				case Key.Left: // Left
@@ -111,7 +110,7 @@ namespace Digger
 					}
 					break;
 
-				case Key.Home: // Begin
+				case Key.Space: // Space
 				case Key.N: // 'N'
 					if (this.engine.Level < 29)
 					{
@@ -211,8 +210,8 @@ namespace Digger
 
 		private void InitializeStatusBar()
 		{
-			this.Children.Add(this.CreateDecoration(2));
-			this.Children.Add(this.CreateDecoration(26));
+			this.Children.Add(this.CreateBorder(2));
+			this.Children.Add(this.CreateBorder(26));
 
 			this.statusLines[0] = new TextLine(this.fontLoader);
 			Canvas.SetTop(this.statusLines[0], 8f);
@@ -266,11 +265,11 @@ namespace Digger
 				}
 			}
 
-			this.statusLines[0].Write("  CAVE:  " + (this.engine.Level + 1).ToString("D2") + " TIME:  " + this.engine.Time.ToString("D5") + " DIAMONDS:  " + this.engine.Diamonds.ToString("D2") + "  ");
+			this.statusLines[0].Write("  ROOM:  " + (this.engine.Level + 1).ToString("D2") + " TIME:  " + this.engine.Time.ToString("D5") + " DIAMONDS:  " + this.engine.Diamonds.ToString("D2") + "  ");
 			this.statusLines[1].Write("  LIVES: " + this.lives.ToString("D2") + " SCORE: " + this.engine.Score.ToString("D5") + " COLLECTED: " + this.engine.Collected.ToString("D2") + "  ");
 		}
 
-		private Rectangle CreateDecoration(double top)
+		private Rectangle CreateBorder(double top)
 		{
 			Rectangle rectangle = new Rectangle();
 			rectangle.Fill = new SolidColorBrush(Colors.Cyan);

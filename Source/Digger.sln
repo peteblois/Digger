@@ -1,5 +1,6 @@
-﻿Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2005
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digger", "Digger.csproj", "{760F6C48-355A-460C-8646-3313BE5850A4}"
 EndProject
 Global
