@@ -3,12 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <title>Digger for Silverlight</title>
-<script type="text/javascript">function onLoad() { document.getElementById('ID').focus() }</script>
+<script type="text/javascript">
+function document_onload() 
+{ 
+	document.getElementById('ID').focus();
+}
+</script>
 </head>
-<body bgcolor="#000000" onLoad="onLoad()">
+<body bgcolor="#000000" onLoad="document_onload();">
 <br><br><br><br><br>
 <center>
-<object id="ID" type="application/x-silverlight-2" width="320" height="256">
+<object id="ID" type="application/x-silverlight-2" width="320" height="256" tabIndex="0">
 	<param name="source" value="Digger.xap" />
 	<param name="background" value="#00000000" />
 	<a href="http://go.microsoft.com/fwlink/?LinkID=124807">
