@@ -34,7 +34,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Application.cs" />
-    <Compile Include="ApplicationWindow.cs" />
     <Compile Include="Engine.cs" />
     <EmbeddedResource Include="Level.bin" />
     <EmbeddedResource Include="Font.bin" />

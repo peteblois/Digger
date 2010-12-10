@@ -9,16 +9,26 @@ namespace Digger
 		private Sprite[][] map = null;
 		private Ghost[] ghosts = null;
 		private Digger digger;
-		public bool[] Keys = new bool[4];
-		public int Level;
-		public int Diamonds;
-		public int Collected;
-		public int Time;
-		public int Score = 0;
+		public bool[] keys = new bool[4];
 
 		public Engine(byte[] data)
 		{
 			this.data = data;
+		}
+
+		public int Level { get; set; }
+
+		public int Diamonds { get; set; }
+
+		public int Collected { get; set; }
+
+		public int Time { get; set; }
+
+		public int Score { get; set; }
+
+		public void SetKey(int key, bool value)
+		{
+			this.keys[key] = value;
 		}
 
 		public int GetSpriteImageIndex(int x, int y)
@@ -773,27 +783,27 @@ namespace Digger
 					Position z = new Position(d);
 
 					direction = Direction.None;
-					if (level.Keys[0])
+					if (level.keys[0])
 					{
 						z.X--; direction = Direction.Left;
 					}
 					else
 					{
 						stone[0] = false;
-						if (level.Keys[1])
+						if (level.keys[1])
 						{
 							z.X++; direction = Direction.Right;
 						}
 						else
 						{
 							stone[1] = false;
-							if (level.Keys[2])
+							if (level.keys[2])
 							{
 								z.Y--; direction = Direction.Up;
 							}
 							else
 							{
-								if (level.Keys[3])
+								if (level.keys[3])
 								{
 									z.Y++; direction = Direction.Down;
 								}
