@@ -110,7 +110,7 @@ namespace Digger
 			this.Time = 5000;
 		}
 
-		public int[] GetCurrentPosition()
+		private int[] GetCurrentPosition()
 		{
 			Position position = this.GetSpritePosition(this.digger);
 			int[] result = new int[2];

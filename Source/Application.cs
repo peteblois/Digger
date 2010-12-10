@@ -55,6 +55,7 @@ namespace Digger
 			private void Page_Loaded(object sender, EventArgs e)
 			{
 				this.lives = 20;
+				this.engine.Score = 0;
 				this.engine.Level = 4;
 				this.engine.Load();
 	
