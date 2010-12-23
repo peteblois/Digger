@@ -14,6 +14,7 @@ cat	Digger.js \
 	Ghost.js \
 	Display.js \
 	Loader.js \
+	Input.js \
 	Function.js \
 	Position.js \
 	Base64Reader.js \
