@@ -3,19 +3,16 @@ function Digger(element)
 {
 	this.canvas = element;
 	this.canvas.focus() 
-	this.display = new Display(this.canvas);
-	this.loadCounter = 0;
-	this.loadAudioData(this.soundData, this.soundData, this.loaded.delegate(this));
-	this.loadImageData(this.imageData, this.display.imageData, this.loaded.delegate(this));
+	this.loader = new Loader();
+	this.loader.loadAudioData(this.soundData);
+	this.loader.loadImageData(this.imageData);
+	this.loader.start(this.loaderCallback.delegate(this));
 }
 
-Digger.prototype.loaded = function()
+Digger.prototype.loaderCallback = function()
 {
-	this.loadCounter++;
-	if (this.loadCounter == 2)
-	{
 	this.blink = 0;
-	this.display.init();
+	this.display = new Display(this.canvas, this.imageData);
 	this.restart();
 
 	this.mouseDownHandler = this.mouseDown.delegate(this);
@@ -37,7 +34,6 @@ Digger.prototype.loaded = function()
 	document.addEventListener("keydown", this.keyDownHandler, false);
 	document.addEventListener("keyup", this.keyUpHandler, false);
 	window.setInterval(this.intervalHandler, 50);
-	}
 }
 
 Digger.prototype.keyDown = function(e)
@@ -48,7 +44,7 @@ Digger.prototype.keyDown = function(e)
 	else if (e.keyCode == 40) { e.preventDefault(); this.addKey(Key.down);  } // down
 	else if (e.keyCode == 27) { e.preventDefault(); this.addKey(Key.reset); } // esc
 	else if (e.keyCode == 32) { e.preventDefault(); this.nextLevel();        } // space
-	else if (!this.isAlive) { e.preventDefault(); this.addKey(Key.reset); }
+	else if (!this.isAlive()) { e.preventDefault(); this.addKey(Key.reset); }
 }
 
 Digger.prototype.keyUp = function(e)
@@ -115,8 +111,8 @@ Digger.prototype.touchEnd = function(e)
 
 Digger.prototype.pressDown = function(x, y)
 {
-	if (!this.isAlive)
-		this.keyDown(Key.reset);
+	if (!this.isAlive())
+		this.addKey(Key.reset);
 	else
 		this.touchPosition = new Position(x, y);	
 }
@@ -151,10 +147,10 @@ Digger.prototype.pressMove = function(x, y)
 Digger.prototype.pressUp = function()
 {
 	this.touchPosition = null;
-	this.keyUp(Key.left);
-	this.keyUp(Key.right);
-	this.keyUp(Key.up);
-	this.keyUp(Key.down);
+	this.removeKey(Key.left);
+	this.removeKey(Key.right);
+	this.removeKey(Key.up);
+	this.removeKey(Key.down);
 }
 
 Digger.prototype.addKey = function(key)
@@ -263,44 +259,4 @@ Digger.prototype.paint = function()
 {
 	var blink = ((this.blink + 4) % 6);
 	this.display.paint(this, this.level, blink);
-}
-
-Digger.prototype.loadImageData = function(source, target, callback)
-{
-	var count = 0;
-	for (var i = 0; i < source.length; i++)
-	{
-		var image = new Image();
-		image.onload = function()
-		{
-			count++;
-			if (count == source.length)
-				callback();
-		}
-		image.src = "data:image/png;base64," + source[i];
-		target[i] = image;
-	}
-}
-
-Digger.prototype.loadAudioData = function(source, target, callback)
-{
-	// var count = 0;
-	for (var i = 0; i < source.length; i++)
-	{
-		var audio = document.createElement('audio');
-		if ((audio != null) && (audio.canPlayType("audio/wav")))
-		{
-			audio.src = "data:audio/wav;base64," + source[i];
-			// audio.onload = function() 
-			// {
-			//	count++;
-			//	if (count == data.length)
-			//		callback();
-			// }
-			audio.preload = "auto";
-			audio.load();
-		}
-		target[i] = audio;
-	}
-	callback();
 }

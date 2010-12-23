@@ -13,6 +13,7 @@ cat	Digger.js \
 	Player.js \
 	Ghost.js \
 	Display.js \
+	Loader.js \
 	Function.js \
 	Position.js \
 	Base64Reader.js \

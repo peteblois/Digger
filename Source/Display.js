@@ -1,12 +1,9 @@
 
-function Display(canvas)
+function Display(canvas, imageData)
 {
 	this.context = canvas.getContext("2d");
-	this.imageData = [];
-}
-
-Display.prototype.init = function()
-{
+	this.imageData = imageData;
+	
 	this.context.fillStyle = "#00ffff"; 
 	this.context.fillRect(0,  2, 320, 4);
 	this.context.fillRect(0, 26, 320, 4);
