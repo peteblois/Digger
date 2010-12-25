@@ -3,22 +3,17 @@ function Input(canvas, game)
 {
 	this.canvas = canvas;
 	this.game = game;
-
+	this.touchPosition = null;
 	this.mouseDownHandler = this.mouseDown.delegate(this);
-	this.mouseUpHandler = this.mouseUp.delegate(this);
-	this.mouseMoveHandler = this.mouseMove.delegate(this);
 	this.touchStartHandler = this.touchStart.delegate(this);
 	this.touchEndHandler = this.touchEnd.delegate(this);
 	this.touchMoveHandler = this.touchMove.delegate(this);
 	this.keyDownHandler = this.keyDown.delegate(this);
 	this.keyUpHandler = this.keyUp.delegate(this);
-
 	this.canvas.addEventListener("touchstart", this.touchStartHandler, false);
 	this.canvas.addEventListener("touchmove", this.touchMoveHandler, false);
 	this.canvas.addEventListener("touchend", this.touchEndHandler, false);
 	this.canvas.addEventListener("mousedown", this.mouseDownHandler, false);
-	this.canvas.addEventListener("mouseup", this.mouseUpHandler, false);
-	this.canvas.addEventListener("mousemove", this.mouseMoveHandler, false);
 	document.addEventListener("keydown", this.keyDownHandler, false);
 	document.addEventListener("keyup", this.keyUpHandler, false);
 }
@@ -46,19 +41,6 @@ Input.prototype.mouseDown = function(e)
 {
 	e.preventDefault(); 
 	this.canvas.focus();
-	this.pressDown(e.offsetX, e.offsetY);
-};
-
-Input.prototype.mouseMove = function(e) 
-{ 
-	e.preventDefault();
-	this.pressMove(e.offsetX, e.offsetY); 
-};
-
-Input.prototype.mouseUp = function(e)
-{ 
-	e.preventDefault();
-	this.pressUp(); 
 };
 
 Input.prototype.touchStart = function(e)
@@ -68,15 +50,15 @@ Input.prototype.touchStart = function(e)
 	{
 		this.game.nextLevel();
 	}
-	else if (e.touches.length > 2) // 3 finger touch = restart current level
+	else if ((e.touches.length > 2) || (!this.game.isAlive())) // 3 finger touch = restart current level
 	{
 		this.game.addKey(Key.reset);
 	}
 	else
-	{ 
+	{
 		for (var i = 0; i < e.touches.length; i++)
 		{
-			this.pressDown(e.touches[i].pageX, e.touches[i].pageY);
+			this.touchPosition = new Position(e.touches[i].pageX, e.touches[i].pageY);
 		}
 	}
 };
@@ -86,69 +68,49 @@ Input.prototype.touchMove = function(e)
 	e.preventDefault();
 	for (var i = 0; i < e.touches.length; i++)
 	{
-		this.pressMove(e.touches[i].pageX, e.touches[i].pageY);
-	}
-};
-
-Input.prototype.touchEnd = function(e)
-{
-	e.preventDefault();
-	this.pressUp();
-};
-
-Input.prototype.pressDown = function(x, y)
-{
-	if (!this.game.isAlive())
-	{
-		this.game.addKey(Key.reset);
-	}
-	else
-	{
-		this.touchPosition = new Position(x, y);
-	}
-};
-
-Input.prototype.pressMove = function(x, y)
-{
-	if (this.touchPosition !== null)
-	{
-		var direction = null;
-		if ((this.touchPosition.x - x) > 20)
+		if (this.touchPosition !== null)
 		{
-			direction = Key.left;
-		}
-		else if ((this.touchPosition.x - x) < -20)
-		{
-			direction = Key.right;
-		}
-		else if ((this.touchPosition.y - y) > 20)
-		{
-			direction = Key.up;
-		}
-		else if ((this.touchPosition.y - y) < -20)
-		{
-			direction = Key.down;
-		}
-		if (direction !== null)
-		{
-			this.touchPosition = new Position(x, y);			
-			for (var i = Key.left; i <= Key.down; i++)
+			var x = e.touches[i].pageX;
+			var y = e.touches[i].pageY;
+			var direction = null;
+			if ((this.touchPosition.x - x) > 20)
 			{
-				if (direction == i)
+				direction = Key.left;
+			}
+			else if ((this.touchPosition.x - x) < -20)
+			{
+				direction = Key.right;
+			}
+			else if ((this.touchPosition.y - y) > 20)
+			{
+				direction = Key.up;
+			}
+			else if ((this.touchPosition.y - y) < -20)
+			{
+				direction = Key.down;
+			}
+			if (direction !== null)
+			{
+				this.touchPosition = new Position(x, y);			
+				for (var i = Key.left; i <= Key.down; i++)
 				{
-					this.game.addKey(i);
-				}
-				else
-				{ 
-					this.game.removeKey(i);
+					if (direction == i)
+					{
+						this.game.addKey(i);
+					}
+					else
+					{ 
+						this.game.removeKey(i);
+					}
 				}
 			}
 		}
 	}
 };
 
-Input.prototype.pressUp = function()
+Input.prototype.touchEnd = function(e)
 {
+	e.preventDefault();
 	this.touchPosition = null;
 	this.game.removeKey(Key.left);
 	this.game.removeKey(Key.right);

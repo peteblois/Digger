@@ -8,14 +8,14 @@ cp Default.html ../Build/Debug/default.html
 cp Default.html ../Build/Release/default.html
 echo Building \'Debug/digger.js\'
 target=../Build/Debug/digger.js
-cat	Base64Reader.js \
-	Direction.js \
-	Player.js \
-	Ghost.js \
+cat	Direction.js \
 	Sprite.js \
 	Key.js \
 	Sound.js \
+	Player.js \
+	Ghost.js \
 	Position.js \
+	Base64Reader.js \
 	Level.js \
 	Display.js \
 	Loader.js \
