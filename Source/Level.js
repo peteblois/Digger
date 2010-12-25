@@ -1,23 +1,25 @@
 
 function Level(data)
 {
+	var i, x, y;
+	
 	var reader = new Base64Reader(data);
 
 	this.map = [];
-	for (var x = 0; x < 20; x++)
+	for (x = 0; x < 20; x++)
 	{
 		this.map[x] = [];
 	}
-	for (var y = 0; y < 14; y++)
+	for (y = 0; y < 14; y++)
 	{
-		for (var x = 0; x < 10; x++)
+		for (x = 0; x < 10; x++)
 		{
-			var data = reader.readByte();
-			this.map[x*2+1][y] = data & 0x0f;
-			this.map[x*2][y] = data >> 4;
+			var b = reader.readByte();
+			this.map[x*2+1][y] = b & 0x0f;
+			this.map[x*2][y] = b >> 4;
 		}
 	}
-	for (var i = 0; i < 5; i++)
+	for (i = 0; i < 5; i++)
 	{
 		reader.readByte();
 	}
@@ -26,21 +28,21 @@ function Level(data)
 	this.diamonds = reader.readByte();
 	this.diamonds = (this.diamonds >> 4) * 10 + (this.diamonds & 0x0f);
 	var ghostData = [];
-	for (var i = 0; i < 8; i++)
+	for (i = 0; i < 8; i++)
 	{
 		ghostData.push(reader.readByte());
 	}
 	this.ghosts = [];
 	var index = 0;
-	for (var y = 0; y < 14; y++)
+	for (y = 0; y < 14; y++)
 	{
-		for (var x = 0; x < 20; x++)
+		for (x = 0; x < 20; x++)
 		{
 			if ((this.map[x][y] == Sprite.ghost90L) || (this.map[x][y] == Sprite.ghost90R) || (this.map[x][y] == Sprite.ghost90LR) || (this.map[x][y] == Sprite.ghost180))
 			{
 				var ghost = new Ghost(new Position(x, y), this.map[x][y]);
 				var info = ghostData[index >> 1];
-				if ((index & 1) != 0)
+				if ((index & 1) !== 0)
 				{
 					info = info & 0x0f;
 					ghost.lastTurn = Direction.right;
@@ -69,22 +71,26 @@ Level.prototype.update = function()
 		for (var x = 19; x >= 0; x--)
 		{
 			if (this.map[x][y] == Sprite.buffer)
+			{
 				this.map[x][y] = Sprite.nothing;
+			}
 		}
 	}
-}
+};
 
 Level.prototype.move = function()
 {	
+	var x, y, dx, dy;
+
 	// gravity for stones and diamonds
-	for (var y = 13; y >= 0; y--)
+	for (y = 13; y >= 0; y--)
 	{
-		for (var x = 19; x >= 0; x--)
+		for (x = 19; x >= 0; x--)
 		{
 			if ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.diamond) || (this.map[x][y] == Sprite.uvstone))
 			{
-				var dx = x;
-				var dy = y;
+				dx = x;
+				dy = y;
 				if (this.map[x][y+1] == Sprite.nothing)
 				{
 					dy = y + 1;
@@ -105,22 +111,26 @@ Level.prototype.move = function()
 						}
 					}
 					if ((this.map[x][y+1] == Sprite.changer) && ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.uvstone)) && (this.map[x][y+2] == Sprite.nothing))
+					{
 						dy = y + 2;
+					}
 				}
 				if ((dx != x) || (dy != y))
+				{
 					this.map[dx][dy] = Sprite.marker;
+				}
 			}
 		}
 	}
 
-	for (var y = 13; y >= 0; y--)
+	for (y = 13; y >= 0; y--)
 	{
-		for (var x = 19; x >= 0; x--)
+		for (x = 19; x >= 0; x--)
 		{
 			if ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.diamond) || (this.map[x][y] == Sprite.uvstone))
 			{
-				var dx = x;
-				var dy = y;
+				dx = x;
+				dy = y;
 				if (this.map[x][y+1] == Sprite.marker)
 				{
 					dy = y + 1;
@@ -141,7 +151,9 @@ Level.prototype.move = function()
 						}
 					}
 					if ((this.map[x][y+1] == Sprite.changer) && ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.uvstone)) && (this.map[x][y+2] == Sprite.marker))
+					{
 						dy = y + 2;
+					}
 				}
 				if ((dx != x) || (dy != y))
 				{
@@ -153,17 +165,25 @@ Level.prototype.move = function()
 					{
 						this.map[dx][dy] = this.map[x][y];
 						if (this.map[dx][dy] == Sprite.uvstone)
+						{
 							this.map[dx][dy] = Sprite.stone;
+						}
 					}
 					this.map[x][y] = Sprite.nothing;
 
 					if ((this.map[dx][dy+1] == Sprite.stone) || (this.map[dx][dy+1] == Sprite.diamond) || (this.map[dx][dy+1] == Sprite.wall) || (this.isGhost(dx,dy+1)))
+					{
 						this.soundTable[Sound.stone] = true;
+					}
 
 					if (this.isPlayer(dx, dy+1)) 
+					{
 						this.player.alive = false;
+					}
 					if (this.isGhost(dx, dy+1)) 
-						this.killGhost(dx, dy + 1);
+					{
+						this.killGhost(this.map[dx][dy + 1]);
+					}
 				}					
 			}
 		}
@@ -175,15 +195,19 @@ Level.prototype.move = function()
 	}
 
 	if (this.time > 0) 
+	{
 		this.time--;
-	if (this.time == 0)
+	}
+	if (this.time === 0)
+	{
 		this.player.alive = false;
-}
+	}
+};
 
 Level.prototype.isPlayer = function(x, y)
 {
 	return ((this.map[x][y] instanceof Player) || (this.map[x][y] == Sprite.player));
-}
+};
 
 Level.prototype.movePlayer = function(keys)
 {
@@ -264,11 +288,17 @@ Level.prototype.movePlayer = function(keys)
 			}
 
 			if ((this.map[z.x][z.y] == Sprite.exit) || (this.map[z.x][z.y] == Sprite.uvexit))
+			{
 				if (this.collected >= this.diamonds)
+				{
 					return true; // next level
+				}
+			}
 
 			if (this.isGhost(z.x, z.y))
+			{
 				this.player.alive = false;
+			}
 		}
 
 		// animate player
@@ -277,34 +307,44 @@ Level.prototype.movePlayer = function(keys)
 		{
 			case Direction.left:
 			case Direction.right:
-				if (this.player.step >= 6) this.player.step = 0;
+				if (this.player.step >= 6)
+				{
+					this.player.step = 0;
+				}
 				break;
 			case Direction.up:
 			case Direction.down:
-				if (this.player.step >= 2) this.player.step = 0;
+				if (this.player.step >= 2)
+				{
+					this.player.step = 0;
+				}
 				break;
-			case Direction.none:
-				if (this.player.step >= 30) this.player.step = 0;
+			default:
+				if (this.player.step >= 30)
+				{
+					this.player.step = 0;
+				}
 				break;
 		}
 	}
 	return false;
-}
+};
 
 Level.prototype.placePlayer = function(x, y)
 {
 	this.map[x][y] = this.map[this.player.position.x][this.player.position.y];
 	this.player.position.x = x;
 	this.player.position.y = y;
-}
+};
 
 Level.prototype.isGhost = function(x, y)
 {
 	return (this.map[x][y] instanceof Ghost);
-}
+};
 
 Level.prototype.moveGhost = function(ghost)
 {
+	var i, d;
 	if (ghost.alive)
 	{
 		var p = new Position(ghost.position.x, ghost.position.y);
@@ -332,19 +372,21 @@ Level.prototype.moveGhost = function(ghost)
 				if (ghost.direction == Direction.up)    { w[0].y--; w[1].x++; w[2].x--; w[3].y++; }
 				if (ghost.direction == Direction.down)  { w[0].y++; w[1].x--; w[2].x++; w[3].y--; }
 			}
-			for (var i = 0; i < 4; i++)
+			for (i = 0; i < 4; i++)
 			{
 				if (!p.equals(w[i]))
 				{
-					var d = new Position(w[i]);
+					d = new Position(w[i]);
 					if (this.isPlayer(d.x, d.y))
+					{
 						this.player.alive = false;
+					}
 					if (this.map[d.x][d.y] == Sprite.nothing)
 					{
-						if (d.x < p.x) ghost.direction = Direction.left;
-						if (d.x > p.x) ghost.direction = Direction.right;
-						if (d.y < p.y) ghost.direction = Direction.up;
-						if (d.y > p.y) ghost.direction = Direction.down;
+						if (d.x < p.x) { ghost.direction = Direction.left;  }
+						if (d.x > p.x) { ghost.direction = Direction.right; }
+						if (d.y < p.y) { ghost.direction = Direction.up;    }
+						if (d.y > p.y) { ghost.direction = Direction.down;  }
 						this.placeGhost(d.x, d.y, ghost);
 						this.map[p.x][p.y] = Sprite.nothing;
 						return;
@@ -357,55 +399,58 @@ Level.prototype.moveGhost = function(ghost)
 			if (ghost.direction == Direction.left)
 			{
 				w[0].x--; w[3].x++;
-				if (ghost.lastTurn == Direction.left) { w[1].y--; w[2].y++; } else { w[1].y++; w[2].y--; };
+				if (ghost.lastTurn == Direction.left) { w[1].y--; w[2].y++; } else { w[1].y++; w[2].y--; }
 			}
-			if (ghost.direction == Direction.right)
+			else if (ghost.direction == Direction.right)
 			{
 				w[0].x++; w[3].x--;
-				if (ghost.lastTurn == Direction.left) { w[1].y++; w[2].y--; } else { w[1].y--; w[2].y++; };
+				if (ghost.lastTurn == Direction.left) { w[1].y++; w[2].y--; } else { w[1].y--; w[2].y++; }
 			}
-			if (ghost.direction == Direction.up)
+			else if (ghost.direction == Direction.up)
 			{
 				w[0].y--; w[3].y++;
 				if (ghost.lastTurn == Direction.left) { w[1].x++; w[2].x--; } else { w[1].x--; w[2].x++; }
 			}
-			if (ghost.direction == Direction.down)
+			else if (ghost.direction == Direction.down)
 			{
 				w[0].y++; w[3].y--;
-				if (ghost.lastTurn == Direction.left) { w[1].x--; w[2].x++; } else { w[1].x++; w[2].x--; };
+				if (ghost.lastTurn == Direction.left) { w[1].x--; w[2].x++; } else { w[1].x++; w[2].x--; }
 			}
-			for (var i = 0; i < 4; i++)
+			for (i = 0; i < 4; i++)
 			{
 				if (!p.equals(w[i]))
 				{
-					var d = new Position(w[i]);
+					d = new Position(w[i]);
 					if (this.isPlayer(d.x, d.y)) 
+					{
 						this.player.alive = false;
+					}
 					if (this.map[d.x][d.y] == Sprite.nothing)
 					{
 						var lastDirection = ghost.direction;
-						if (d.x < p.x) ghost.direction = Direction.left;
-						if (d.x > p.x) ghost.direction = Direction.right;
-						if (d.y < p.y) ghost.direction = Direction.up;
-						if (d.y > p.y) ghost.direction = Direction.down;
-						switch (lastDirection)
+						if (d.x < p.x) { ghost.direction = Direction.left;  }
+						if (d.x > p.x) { ghost.direction = Direction.right; }
+						if (d.y < p.y) { ghost.direction = Direction.up;    }
+						if (d.y > p.y) { ghost.direction = Direction.down;  }
+						if (lastDirection == Direction.left)
 						{
-							case Direction.left:
-								if (ghost.direction == Direction.down)  ghost.lastTurn = Direction.left;
-								if (ghost.direction == Direction.up)    ghost.lastTurn = Direction.right;
-								break;
-							case Direction.right:
-								if (ghost.direction == Direction.down)  ghost.lastTurn = Direction.right;
-								if (ghost.direction == Direction.up)    ghost.lastTurn = Direction.left;
-								break;
-							case Direction.up:
-								if (ghost.direction == Direction.left)  ghost.lastTurn = Direction.left;
-								if (ghost.direction == Direction.right) ghost.lastTurn = Direction.right;
-								break;
-							case Direction.down:
-								if (ghost.direction == Direction.left)  ghost.lastTurn = Direction.right;
-								if (ghost.direction == Direction.right) ghost.lastTurn = Direction.left;
-								break;
+							if (ghost.direction == Direction.down)  { ghost.lastTurn = Direction.left;  }
+							if (ghost.direction == Direction.up)    { ghost.lastTurn = Direction.right; }
+						}
+						else if (lastDirection == Direction.right)
+						{
+							if (ghost.direction == Direction.down)  { ghost.lastTurn = Direction.right; }
+							if (ghost.direction == Direction.up)    { ghost.lastTurn = Direction.left;  }
+						}
+						else if (lastDirection == Direction.up)
+						{
+							if (ghost.direction == Direction.left)  { ghost.lastTurn = Direction.left;  }
+							if (ghost.direction == Direction.right) { ghost.lastTurn = Direction.right; }
+						}
+						else if (lastDirection == Direction.down)
+						{
+							if (ghost.direction == Direction.left)  { ghost.lastTurn = Direction.right; }
+							if (ghost.direction == Direction.right) { ghost.lastTurn = Direction.left;  }
 						}
 						this.placeGhost(d.x, d.y, ghost);
 						this.map[p.x][p.y] = Sprite.nothing;
@@ -415,18 +460,17 @@ Level.prototype.moveGhost = function(ghost)
 			}
 		}
 	}
-}
+};
 
 Level.prototype.placeGhost = function(x, y, ghost)
 {
 	this.map[x][y] = ghost;
 	ghost.position.x = x;
 	ghost.position.y = y;
-}
+};
 
-Level.prototype.killGhost = function(x, y)
+Level.prototype.killGhost = function(ghost)
 {
-	var ghost = this.map[x][y];
 	if (ghost.alive)
 	{
 		var p = new Position(ghost.position.x, ghost.position.y);
@@ -454,4 +498,4 @@ Level.prototype.killGhost = function(x, y)
 		}
 		ghost.alive = false;
 	}
-}	
+};	

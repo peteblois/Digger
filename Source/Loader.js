@@ -10,19 +10,21 @@ Loader.prototype.loadImageData = function(data)
 {
 	this.count += data.length;
 	this.imageData = data;
-}
+};
 
 Loader.prototype.loadAudioData = function(data)
 {
 	this.audioData = data;
-}
+};
 
 Loader.prototype.start = function(callback)
 {
-	for (var i = 0; i < this.audioData.length; i++)
+	var i;
+	
+	for (i = 0; i < this.audioData.length; i++)
 	{
 		var audio = document.createElement('audio');
-		if ((audio != null) && (audio.canPlayType("audio/wav")))
+		if ((audio !== null) && (audio.canPlayType("audio/wav")))
 		{
 			audio.src = "data:audio/wav;base64," + this.audioData[i];
 			audio.preload = "auto";
@@ -31,21 +33,22 @@ Loader.prototype.start = function(callback)
 		this.audioData[i] = audio;
 	}
 
-	var count = this.count;
 	var index = 0;
-	for (var i = 0; i < this.imageData.length; i++)
+	var count = this.count;
+	var onload = function()
+	{
+		index++;
+		if (index == count)
+		{
+			callback();
+		}
+	};
+
+	for (i = 0; i < this.imageData.length; i++)
 	{
 		var image = new Image();
-		image.onload = function()
-		{
-			index++;
-			if (index == count)
-				callback();
-		}
+		image.onload = onload;
 		image.src = "data:image/png;base64," + this.imageData[i];
 		this.imageData[i] = image;
 	}	
-}
-
-
-
+};

@@ -5,5 +5,5 @@ Function.prototype.delegate = function(obj)
 	return function()
 	{
 		return fn.apply(obj, arguments);
-	}
-}
+	};
+};

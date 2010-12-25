@@ -11,4 +11,4 @@ function Ghost(position, type)
 Ghost.prototype.getImageIndex = function()
 {
 	return [ 4, 4, 5, 6, 3 ][this.direction];
-}
+};

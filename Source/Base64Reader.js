@@ -10,7 +10,7 @@ function Base64Reader(data)
 
 Base64Reader.prototype.readByte = function()
 {
-	if (this.bitsLength == 0)
+	if (this.bitsLength === 0)
 	{
 		var tailBits = 0;
 		while (this.position < this.data.length && this.bitsLength < 24)
@@ -28,7 +28,10 @@ Base64Reader.prototype.readByte = function()
 			}
 			this.bitsLength += 6;
 		}
-		if ((this.position >= this.data.length) && (this.bitsLength == 0)) return -1;
+		if ((this.position >= this.data.length) && (this.bitsLength === 0))
+		{
+			return -1;
+		}
 		tailBits = (tailBits == 6) ? 8 : (tailBits == 12) ? 16 : tailBits;
 		this.bits = this.bits >> tailBits;
 		this.bitsLength -= tailBits;

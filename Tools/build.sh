@@ -8,20 +8,20 @@ cp Default.html ../Build/Debug/default.html
 cp Default.html ../Build/Release/default.html
 echo Building \'Debug/digger.js\'
 target=../Build/Debug/digger.js
-cat	Digger.js \
-	Level.js \
+cat	Base64Reader.js \
+	Direction.js \
 	Player.js \
 	Ghost.js \
+	Sprite.js \
+	Key.js \
+	Sound.js \
+	Position.js \
+	Level.js \
 	Display.js \
 	Loader.js \
 	Input.js \
 	Function.js \
-	Position.js \
-	Base64Reader.js \
-	Direction.js \
-	Key.js \
-	Sound.js \
-	Sprite.js \
+	Digger.js \
 	LevelData.js \
 	> $target
 echo 'Digger.prototype.imageData = [ "'$(openssl base64 -in Sprite.png | tr -d '\n')'","'$(openssl base64 -in Font.png | tr -d '\n')'" ];' >> $target  

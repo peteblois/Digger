@@ -32,7 +32,7 @@ Input.prototype.keyDown = function(e)
 	else if (e.keyCode == 27) { e.preventDefault(); this.game.addKey(Key.reset); } // esc
 	else if (e.keyCode == 32) { e.preventDefault(); this.game.nextLevel();       } // space
 	else if (!this.game.isAlive()) { e.preventDefault(); this.game.addKey(Key.reset); }
-}
+};
 
 Input.prototype.keyUp = function(e)
 {
@@ -40,26 +40,26 @@ Input.prototype.keyUp = function(e)
 	else if (e.keyCode == 39) { this.game.removeKey(Key.right); }
 	else if (e.keyCode == 38) { this.game.removeKey(Key.up);    }
 	else if (e.keyCode == 40) { this.game.removeKey(Key.down);  }
-}
+};
 
 Input.prototype.mouseDown = function(e) 
 {
 	e.preventDefault(); 
 	this.canvas.focus();
-	this.pressDown(e.offsetX, e.offsetY) 
-}
+	this.pressDown(e.offsetX, e.offsetY);
+};
 
 Input.prototype.mouseMove = function(e) 
 { 
 	e.preventDefault();
 	this.pressMove(e.offsetX, e.offsetY); 
-}
+};
 
 Input.prototype.mouseUp = function(e)
 { 
 	e.preventDefault();
 	this.pressUp(); 
-}
+};
 
 Input.prototype.touchStart = function(e)
 {
@@ -79,7 +79,7 @@ Input.prototype.touchStart = function(e)
 			this.pressDown(e.touches[i].pageX, e.touches[i].pageY);
 		}
 	}
-}
+};
 
 Input.prototype.touchMove = function(e)
 {
@@ -88,48 +88,64 @@ Input.prototype.touchMove = function(e)
 	{
 		this.pressMove(e.touches[i].pageX, e.touches[i].pageY);
 	}
-}
+};
 
 Input.prototype.touchEnd = function(e)
 {
 	e.preventDefault();
 	this.pressUp();
-}
+};
 
 Input.prototype.pressDown = function(x, y)
 {
 	if (!this.game.isAlive())
+	{
 		this.game.addKey(Key.reset);
+	}
 	else
-		this.touchPosition = new Position(x, y);	
-}
+	{
+		this.touchPosition = new Position(x, y);
+	}
+};
 
 Input.prototype.pressMove = function(x, y)
 {
-	if (this.touchPosition != null)
+	if (this.touchPosition !== null)
 	{
 		var direction = null;
 		if ((this.touchPosition.x - x) > 20)
+		{
 			direction = Key.left;
+		}
 		else if ((this.touchPosition.x - x) < -20)
+		{
 			direction = Key.right;
+		}
 		else if ((this.touchPosition.y - y) > 20)
+		{
 			direction = Key.up;
+		}
 		else if ((this.touchPosition.y - y) < -20)
+		{
 			direction = Key.down;
-		if (direction != null)
+		}
+		if (direction !== null)
 		{
 			this.touchPosition = new Position(x, y);			
 			for (var i = Key.left; i <= Key.down; i++)
 			{
 				if (direction == i)
+				{
 					this.game.addKey(i);
-				else 
+				}
+				else
+				{ 
 					this.game.removeKey(i);
+				}
 			}
 		}
 	}
-}
+};
 
 Input.prototype.pressUp = function()
 {
@@ -138,4 +154,4 @@ Input.prototype.pressUp = function()
 	this.game.removeKey(Key.right);
 	this.game.removeKey(Key.up);
 	this.game.removeKey(Key.down);
-}
+};

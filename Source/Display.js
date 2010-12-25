@@ -47,7 +47,7 @@ Display.prototype.paint = function(game, level, blink)
 			}
 		}
 	}
-}
+};
 
 Display.prototype.drawText = function(context, x, y, text)
 {
@@ -58,16 +58,17 @@ Display.prototype.drawText = function(context, x, y, text)
 		this.context.drawImage(this.imageData[1], 0, index * 8, 8, 8, x, y, 8, 8);
 		x += 8;
 	}	
-}
-
+};
 
 Display.prototype.formatNumber = function(value, digits)
 {
 	var text = value.toString();
 	while (text.length < digits)
+	{
 		text = "0" + text;
+	}
 	return text; 
-}
+};
 
 Display.prototype.getSpriteIndex = function(value, blink)
 {
@@ -84,7 +85,7 @@ Display.prototype.getSpriteIndex = function(value, blink)
 		case Sprite.buffer:    return 0;
 		case Sprite.marker:    return 0;
 		case Sprite.uvstone:   return 0;
-		case Sprite.player:    return 15; 
+		case Sprite.player:    return 15;
+		default:               return value.getImageIndex();
 	}
-	return value.getImageIndex();
-}
+};

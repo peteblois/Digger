@@ -1,19 +1,19 @@
 
 function Position()
 {
-	if (Position.arguments.length == 1) // copy constructor
+	if (arguments.length == 1) // copy constructor
 	{
-		this.x = Position.arguments[0].x;	
-		this.y = Position.arguments[0].y;	
+		this.x = arguments[0].x;	
+		this.y = arguments[0].y;	
 	}
-	if (Position.arguments.length == 2) // (x, y)
+	if (arguments.length == 2) // (x, y)
 	{
-		this.x = Position.arguments[0];
-		this.y = Position.arguments[1];
+		this.x = arguments[0];
+		this.y = arguments[1];
 	}
 }
 
 Position.prototype.equals = function(position)
 {
 	return (this.x == position.x) && (this.y == position.y);
-}
+};
