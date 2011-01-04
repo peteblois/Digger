@@ -6,7 +6,7 @@ function Digger(element)
 	this.loader = new Loader();
 	this.loader.loadAudioData(this.soundData);
 	this.loader.loadImageData(this.imageData);
-	this.loader.start(this.loaderCallback.delegate(this));
+	this.loader.start(this.loaderCallback.bind(this));
 }
 
 Digger.prototype.loaderCallback = function()
@@ -15,7 +15,7 @@ Digger.prototype.loaderCallback = function()
 	this.input = new Input(this.canvas, this);
 	this.blink = 0;
 	this.restart();
-	this.intervalHandler = this.interval.delegate(this);
+	this.intervalHandler = this.interval.bind(this);
 	window.setInterval(this.intervalHandler, 50);
 };
 
