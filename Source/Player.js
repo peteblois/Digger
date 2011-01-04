@@ -1,5 +1,5 @@
 
-function Player(position)
+Player = function(position)
 {
 	this.position = position;
 	this.alive = true;

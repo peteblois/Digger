@@ -1,5 +1,5 @@
 
-function Loader()
+Loader = function()
 {
 	this.count = 0;
 	this.imageData = null;

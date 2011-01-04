@@ -1,5 +1,5 @@
 
-function Digger(element)
+Digger = function(element)
 {
 	this.canvas = element;
 	this.canvas.focus();

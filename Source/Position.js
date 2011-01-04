@@ -1,5 +1,5 @@
 
-function Position()
+Position = function()
 {
 	if (arguments.length == 1) // copy constructor
 	{

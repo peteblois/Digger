@@ -1,5 +1,5 @@
 
-function Display(canvas, imageData)
+Display = function(canvas, imageData)
 {
 	this.context = canvas.getContext("2d");
 	this.imageData = imageData;

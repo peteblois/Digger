@@ -1,5 +1,5 @@
 
-function Base64Reader(data)
+Base64Reader = function(data)
 { 
 	this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	this.data = data;

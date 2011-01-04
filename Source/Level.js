@@ -1,5 +1,5 @@
 
-function Level(data)
+Level = function(data)
 {
 	var i, x, y;
 	

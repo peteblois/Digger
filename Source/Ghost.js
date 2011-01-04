@@ -1,5 +1,5 @@
 
-function Ghost(position, type)
+Ghost = function(position, type)
 {
 	this.position = position;
 	this.type = type;

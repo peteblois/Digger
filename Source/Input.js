@@ -1,5 +1,5 @@
 
-function Input(canvas, game)
+Input = function(canvas, game)
 {
 	this.canvas = canvas;
 	this.game = game;
