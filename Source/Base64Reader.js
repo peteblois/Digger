@@ -1,12 +1,12 @@
 
-Base64Reader = function(data)
+var Base64Reader = function(data)
 { 
 	this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	this.data = data;
 	this.position = 0;
 	this.bits = 0;
 	this.bitsLength = 0;
-}
+};
 
 Base64Reader.prototype.readByte = function()
 {
@@ -32,7 +32,7 @@ Base64Reader.prototype.readByte = function()
 		{
 			return -1;
 		}
-		tailBits = (tailBits == 6) ? 8 : (tailBits == 12) ? 16 : tailBits;
+		tailBits = (tailBits === 6) ? 8 : (tailBits === 12) ? 16 : tailBits;
 		this.bits = this.bits >> tailBits;
 		this.bitsLength -= tailBits;
 	}

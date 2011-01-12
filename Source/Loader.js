@@ -1,10 +1,10 @@
 
-Loader = function()
+var Loader = function()
 {
 	this.count = 0;
 	this.imageData = null;
 	this.audioData = null;
-}
+};
 
 Loader.prototype.loadImageData = function(data)
 {

@@ -1,12 +1,12 @@
 
-Ghost = function(position, type)
+var Ghost = function(position, type)
 {
 	this.position = position;
 	this.type = type;
 	this.alive = true;
 	this.direction = Direction.none;
 	this.lastTurn = Direction.none;
-}
+};
 
 Ghost.prototype.getImageIndex = function()
 {

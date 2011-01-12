@@ -1,5 +1,5 @@
 
-Display = function(canvas, imageData)
+var Display = function(canvas, imageData)
 {
 	this.context = canvas.getContext("2d");
 	this.imageData = imageData;
@@ -21,7 +21,7 @@ Display = function(canvas, imageData)
 			this.screenTable[x][y] = 0;
 		}
 	}
-}
+};
 
 Display.prototype.paint = function(game, level, blink)
 {

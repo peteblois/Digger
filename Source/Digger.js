@@ -1,5 +1,5 @@
 
-Digger = function(element)
+var Digger = function(element)
 {
 	this.canvas = element;
 	this.canvas.focus();
@@ -7,7 +7,7 @@ Digger = function(element)
 	this.loader.loadAudioData(this.soundData);
 	this.loader.loadImageData(this.imageData);
 	this.loader.start(this.loaderCallback.bind(this));
-}
+};
 
 Digger.prototype.loaderCallback = function()
 {
@@ -130,6 +130,9 @@ Digger.prototype.interval = function()
 			}
 		}
 	}
+	
+	this.score += this.level.score;
+	this.level.score = 0;
 
 	this.paint();
 };

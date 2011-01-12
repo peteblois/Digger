@@ -1,5 +1,5 @@
 
-Level = function(data)
+var Level = function(data)
 {
 	var i, x, y;
 	
@@ -38,7 +38,7 @@ Level = function(data)
 	{
 		for (x = 0; x < 20; x++)
 		{
-			if ((this.map[x][y] == Sprite.ghost90L) || (this.map[x][y] == Sprite.ghost90R) || (this.map[x][y] == Sprite.ghost90LR) || (this.map[x][y] == Sprite.ghost180))
+			if ((this.map[x][y] === Sprite.ghost90L) || (this.map[x][y] === Sprite.ghost90R) || (this.map[x][y] === Sprite.ghost90LR) || (this.map[x][y] === Sprite.ghost180))
 			{
 				var ghost = new Ghost(new Position(x, y), this.map[x][y]);
 				var info = ghostData[index >> 1];
@@ -60,8 +60,9 @@ Level = function(data)
 		}
 	}
 	this.collected = 0;
-	this.time = 5000;	
-}
+	this.time = 5000;
+	this.score = 0;	
+};
 
 Level.prototype.update = function()
 {
@@ -70,7 +71,7 @@ Level.prototype.update = function()
 	{
 		for (var x = 19; x >= 0; x--)
 		{
-			if (this.map[x][y] == Sprite.buffer)
+			if (this.map[x][y] === Sprite.buffer)
 			{
 				this.map[x][y] = Sprite.nothing;
 			}
@@ -87,30 +88,30 @@ Level.prototype.move = function()
 	{
 		for (x = 19; x >= 0; x--)
 		{
-			if ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.diamond) || (this.map[x][y] == Sprite.uvstone))
+			if ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.diamond) || (this.map[x][y] === Sprite.uvstone))
 			{
 				dx = x;
 				dy = y;
-				if (this.map[x][y+1] == Sprite.nothing)
+				if (this.map[x][y+1] === Sprite.nothing)
 				{
 					dy = y + 1;
 				}
 				else
 				{
-					if ((this.map[x][y+1] == Sprite.stone) || (this.map[x][y+1] == Sprite.diamond))
+					if ((this.map[x][y+1] === Sprite.stone) || (this.map[x][y+1] === Sprite.diamond))
 					{
-						if ((this.map[x-1][y+1] == Sprite.nothing) && (this.map[x-1][y] == Sprite.nothing))
+						if ((this.map[x-1][y+1] === Sprite.nothing) && (this.map[x-1][y] === Sprite.nothing))
 						{
 							dx = x - 1;
 							dy = y + 1;
 						}
-						else if ((this.map[x+1][y+1] == Sprite.nothing) && (this.map[x+1][y] == Sprite.nothing))
+						else if ((this.map[x+1][y+1] === Sprite.nothing) && (this.map[x+1][y] === Sprite.nothing))
 						{
 							dx = x + 1;
 							dy = y + 1;
 						}
 					}
-					if ((this.map[x][y+1] == Sprite.changer) && ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.uvstone)) && (this.map[x][y+2] == Sprite.nothing))
+					if ((this.map[x][y+1] === Sprite.changer) && ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.uvstone)) && (this.map[x][y+2] === Sprite.nothing))
 					{
 						dy = y + 2;
 					}
@@ -127,51 +128,51 @@ Level.prototype.move = function()
 	{
 		for (x = 19; x >= 0; x--)
 		{
-			if ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.diamond) || (this.map[x][y] == Sprite.uvstone))
+			if ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.diamond) || (this.map[x][y] === Sprite.uvstone))
 			{
 				dx = x;
 				dy = y;
-				if (this.map[x][y+1] == Sprite.marker)
+				if (this.map[x][y+1] === Sprite.marker)
 				{
 					dy = y + 1;
 				}
 				else
 				{
-					if ((this.map[x][y+1] == Sprite.stone) || (this.map[x][y+1] == Sprite.diamond) || (this.map[x][y+1] == Sprite.nothing))
+					if ((this.map[x][y+1] === Sprite.stone) || (this.map[x][y+1] === Sprite.diamond) || (this.map[x][y+1] === Sprite.nothing))
 					{
-						if ((this.map[x-1][y+1] == Sprite.marker) && ((this.map[x-1][y] == Sprite.nothing) || (this.map[x-1][y] == Sprite.marker)))
+						if ((this.map[x-1][y+1] === Sprite.marker) && ((this.map[x-1][y] === Sprite.nothing) || (this.map[x-1][y] === Sprite.marker)))
 						{
 							dx = x - 1;
 							dy = y + 1;
 						}
-						else if ((this.map[x+1][y+1] == Sprite.marker) && ((this.map[x+1][y] == Sprite.nothing) || (this.map[x+1][y] == Sprite.marker)))
+						else if ((this.map[x+1][y+1] === Sprite.marker) && ((this.map[x+1][y] === Sprite.nothing) || (this.map[x+1][y] === Sprite.marker)))
 						{
 							dx = x + 1;
 							dy = y + 1;
 						}
 					}
-					if ((this.map[x][y+1] == Sprite.changer) && ((this.map[x][y] == Sprite.stone) || (this.map[x][y] == Sprite.uvstone)) && (this.map[x][y+2] == Sprite.marker))
+					if ((this.map[x][y+1] === Sprite.changer) && ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.uvstone)) && (this.map[x][y+2] === Sprite.marker))
 					{
 						dy = y + 2;
 					}
 				}
 				if ((dx != x) || (dy != y))
 				{
-					if ((dy - y) == 2)
+					if ((dy - y) === 2)
 					{
 						this.map[dx][dy] = Sprite.diamond;
 					}
 					else
 					{
 						this.map[dx][dy] = this.map[x][y];
-						if (this.map[dx][dy] == Sprite.uvstone)
+						if (this.map[dx][dy] === Sprite.uvstone)
 						{
 							this.map[dx][dy] = Sprite.stone;
 						}
 					}
 					this.map[x][y] = Sprite.nothing;
 
-					if ((this.map[dx][dy+1] == Sprite.stone) || (this.map[dx][dy+1] == Sprite.diamond) || (this.map[dx][dy+1] == Sprite.wall) || (this.isGhost(dx,dy+1)))
+					if ((this.map[dx][dy+1] === Sprite.stone) || (this.map[dx][dy+1] === Sprite.diamond) || (this.map[dx][dy+1] === Sprite.wall) || (this.isGhost(dx,dy+1)))
 					{
 						this.soundTable[Sound.stone] = true;
 					}
@@ -206,7 +207,7 @@ Level.prototype.move = function()
 
 Level.prototype.isPlayer = function(x, y)
 {
-	return ((this.map[x][y] instanceof Player) || (this.map[x][y] == Sprite.player));
+	return ((this.map[x][y] instanceof Player) || (this.map[x][y] === Sprite.player));
 };
 
 Level.prototype.movePlayer = function(keys)
@@ -247,19 +248,19 @@ Level.prototype.movePlayer = function(keys)
 		}
 		if (!d.equals(z))
 		{
-			if (this.map[z.x][z.y] == Sprite.nothing)
+			if (this.map[z.x][z.y] === Sprite.nothing)
 			{
 				this.placePlayer(d.x, d.y);
 			}
-			if (this.map[z.x][z.y] == Sprite.diamond)
+			if (this.map[z.x][z.y] === Sprite.diamond)
 			{
 				this.collected += 1;
 				this.score += 3;
 				this.soundTable[Sound.diamond] = true;
 			}
-			if (this.map[z.x][z.y] == Sprite.stone)
+			if (this.map[z.x][z.y] === Sprite.stone)
 			{
-				if ((z.x > d.x) && (this.map[z.x+1][z.y] == Sprite.nothing))
+				if ((z.x > d.x) && (this.map[z.x+1][z.y] === Sprite.nothing))
 				{
 					if (this.player.stone[1])
 					{
@@ -269,7 +270,7 @@ Level.prototype.movePlayer = function(keys)
 					this.player.stone[1] = !this.player.stone[1];
 				}
 
-				if ((z.x < d.x) && (this.map[z.x-1][z.y] == Sprite.nothing))
+				if ((z.x < d.x) && (this.map[z.x-1][z.y] === Sprite.nothing))
 				{
 					if (this.player.stone[0])
 					{
@@ -280,14 +281,14 @@ Level.prototype.movePlayer = function(keys)
 				}
 			}
 
-			if ((this.map[z.x][z.y] == Sprite.nothing) || (this.map[z.x][z.y] == Sprite.ground) || (this.map[z.x][z.y] == Sprite.diamond))
+			if ((this.map[z.x][z.y] === Sprite.nothing) || (this.map[z.x][z.y] === Sprite.ground) || (this.map[z.x][z.y] === Sprite.diamond))
 			{
 				this.placePlayer(z.x, z.y);
 				this.map[d.x][d.y] = Sprite.buffer;
 				this.soundTable[Sound.step] = true;
 			}
 
-			if ((this.map[z.x][z.y] == Sprite.exit) || (this.map[z.x][z.y] == Sprite.uvexit))
+			if ((this.map[z.x][z.y] === Sprite.exit) || (this.map[z.x][z.y] === Sprite.uvexit))
 			{
 				if (this.collected >= this.diamonds)
 				{
@@ -349,28 +350,28 @@ Level.prototype.moveGhost = function(ghost)
 	{
 		var p = new Position(ghost.position.x, ghost.position.y);
 		var w = [ new Position(p), new Position(p), new Position(p), new Position(p) ];
-		if ((ghost.type == Sprite.ghost180) || (ghost.type == Sprite.ghost90L) || (ghost.type == Sprite.ghost90R))
+		if ((ghost.type === Sprite.ghost180) || (ghost.type === Sprite.ghost90L) || (ghost.type === Sprite.ghost90R))
 		{
-			if (ghost.type == Sprite.ghost180)
+			if (ghost.type === Sprite.ghost180)
 			{
-				if (ghost.direction == Direction.left)  { w[0].x--; w[1].x++; }
-				if (ghost.direction == Direction.right) { w[0].x++; w[1].x--; }
-				if (ghost.direction == Direction.up)    { w[0].y--; w[1].y++; }
-				if (ghost.direction == Direction.down)  { w[0].y++; w[1].y--; }
+				if (ghost.direction === Direction.left)  { w[0].x--; w[1].x++; }
+				if (ghost.direction === Direction.right) { w[0].x++; w[1].x--; }
+				if (ghost.direction === Direction.up)    { w[0].y--; w[1].y++; }
+				if (ghost.direction === Direction.down)  { w[0].y++; w[1].y--; }
 			}
-			else if (ghost.type == Sprite.ghost90L)
+			else if (ghost.type === Sprite.ghost90L)
 			{
-				if (ghost.direction == Direction.left)  { w[0].x--; w[1].y++; w[2].y--; w[3].x++; }
-				if (ghost.direction == Direction.right) { w[0].x++; w[1].y--; w[2].y++; w[3].x--; }
-				if (ghost.direction == Direction.up)    { w[0].y--; w[1].x--; w[2].x++; w[3].y++; }
-				if (ghost.direction == Direction.down)  { w[0].y++; w[1].x++; w[2].x--; w[3].y--; }
+				if (ghost.direction === Direction.left)  { w[0].x--; w[1].y++; w[2].y--; w[3].x++; }
+				if (ghost.direction === Direction.right) { w[0].x++; w[1].y--; w[2].y++; w[3].x--; }
+				if (ghost.direction === Direction.up)    { w[0].y--; w[1].x--; w[2].x++; w[3].y++; }
+				if (ghost.direction === Direction.down)  { w[0].y++; w[1].x++; w[2].x--; w[3].y--; }
 			}
-			else if (ghost.type == Sprite.ghost90R)
+			else if (ghost.type === Sprite.ghost90R)
 			{
-				if (ghost.direction == Direction.left)  { w[0].x--; w[1].y--; w[2].y++; w[3].x++; }
-				if (ghost.direction == Direction.right) { w[0].x++; w[1].y++; w[2].y--; w[3].x--; }
-				if (ghost.direction == Direction.up)    { w[0].y--; w[1].x++; w[2].x--; w[3].y++; }
-				if (ghost.direction == Direction.down)  { w[0].y++; w[1].x--; w[2].x++; w[3].y--; }
+				if (ghost.direction === Direction.left)  { w[0].x--; w[1].y--; w[2].y++; w[3].x++; }
+				if (ghost.direction === Direction.right) { w[0].x++; w[1].y++; w[2].y--; w[3].x--; }
+				if (ghost.direction === Direction.up)    { w[0].y--; w[1].x++; w[2].x--; w[3].y++; }
+				if (ghost.direction === Direction.down)  { w[0].y++; w[1].x--; w[2].x++; w[3].y--; }
 			}
 			for (i = 0; i < 4; i++)
 			{
@@ -381,7 +382,7 @@ Level.prototype.moveGhost = function(ghost)
 					{
 						this.player.alive = false;
 					}
-					if (this.map[d.x][d.y] == Sprite.nothing)
+					if (this.map[d.x][d.y] === Sprite.nothing)
 					{
 						if (d.x < p.x) { ghost.direction = Direction.left;  }
 						if (d.x > p.x) { ghost.direction = Direction.right; }
@@ -394,27 +395,27 @@ Level.prototype.moveGhost = function(ghost)
 				}
 			}
 		}
-		else if (ghost.type == Sprite.ghost90LR)
+		else if (ghost.type === Sprite.ghost90LR)
 		{
-			if (ghost.direction == Direction.left)
+			if (ghost.direction === Direction.left)
 			{
 				w[0].x--; w[3].x++;
-				if (ghost.lastTurn == Direction.left) { w[1].y--; w[2].y++; } else { w[1].y++; w[2].y--; }
+				if (ghost.lastTurn === Direction.left) { w[1].y--; w[2].y++; } else { w[1].y++; w[2].y--; }
 			}
-			else if (ghost.direction == Direction.right)
+			else if (ghost.direction === Direction.right)
 			{
 				w[0].x++; w[3].x--;
-				if (ghost.lastTurn == Direction.left) { w[1].y++; w[2].y--; } else { w[1].y--; w[2].y++; }
+				if (ghost.lastTurn === Direction.left) { w[1].y++; w[2].y--; } else { w[1].y--; w[2].y++; }
 			}
-			else if (ghost.direction == Direction.up)
+			else if (ghost.direction === Direction.up)
 			{
 				w[0].y--; w[3].y++;
-				if (ghost.lastTurn == Direction.left) { w[1].x++; w[2].x--; } else { w[1].x--; w[2].x++; }
+				if (ghost.lastTurn === Direction.left) { w[1].x++; w[2].x--; } else { w[1].x--; w[2].x++; }
 			}
-			else if (ghost.direction == Direction.down)
+			else if (ghost.direction === Direction.down)
 			{
 				w[0].y++; w[3].y--;
-				if (ghost.lastTurn == Direction.left) { w[1].x--; w[2].x++; } else { w[1].x++; w[2].x--; }
+				if (ghost.lastTurn === Direction.left) { w[1].x--; w[2].x++; } else { w[1].x++; w[2].x--; }
 			}
 			for (i = 0; i < 4; i++)
 			{
@@ -425,32 +426,32 @@ Level.prototype.moveGhost = function(ghost)
 					{
 						this.player.alive = false;
 					}
-					if (this.map[d.x][d.y] == Sprite.nothing)
+					if (this.map[d.x][d.y] === Sprite.nothing)
 					{
 						var lastDirection = ghost.direction;
 						if (d.x < p.x) { ghost.direction = Direction.left;  }
 						if (d.x > p.x) { ghost.direction = Direction.right; }
 						if (d.y < p.y) { ghost.direction = Direction.up;    }
 						if (d.y > p.y) { ghost.direction = Direction.down;  }
-						if (lastDirection == Direction.left)
+						if (lastDirection === Direction.left)
 						{
-							if (ghost.direction == Direction.down)  { ghost.lastTurn = Direction.left;  }
-							if (ghost.direction == Direction.up)    { ghost.lastTurn = Direction.right; }
+							if (ghost.direction === Direction.down)  { ghost.lastTurn = Direction.left;  }
+							if (ghost.direction === Direction.up)    { ghost.lastTurn = Direction.right; }
 						}
-						else if (lastDirection == Direction.right)
+						else if (lastDirection === Direction.right)
 						{
-							if (ghost.direction == Direction.down)  { ghost.lastTurn = Direction.right; }
-							if (ghost.direction == Direction.up)    { ghost.lastTurn = Direction.left;  }
+							if (ghost.direction === Direction.down)  { ghost.lastTurn = Direction.right; }
+							if (ghost.direction === Direction.up)    { ghost.lastTurn = Direction.left;  }
 						}
-						else if (lastDirection == Direction.up)
+						else if (lastDirection === Direction.up)
 						{
-							if (ghost.direction == Direction.left)  { ghost.lastTurn = Direction.left;  }
-							if (ghost.direction == Direction.right) { ghost.lastTurn = Direction.right; }
+							if (ghost.direction === Direction.left)  { ghost.lastTurn = Direction.left;  }
+							if (ghost.direction === Direction.right) { ghost.lastTurn = Direction.right; }
 						}
-						else if (lastDirection == Direction.down)
+						else if (lastDirection === Direction.down)
 						{
-							if (ghost.direction == Direction.left)  { ghost.lastTurn = Direction.right; }
-							if (ghost.direction == Direction.right) { ghost.lastTurn = Direction.left;  }
+							if (ghost.direction === Direction.left)  { ghost.lastTurn = Direction.right; }
+							if (ghost.direction === Direction.right) { ghost.lastTurn = Direction.left;  }
 						}
 						this.placeGhost(d.x, d.y, ghost);
 						this.map[p.x][p.y] = Sprite.nothing;

@@ -1,5 +1,5 @@
 
-Input = function(canvas, game)
+var Input = function(canvas, game)
 {
 	this.canvas = canvas;
 	this.game = game;
@@ -20,7 +20,7 @@ Input = function(canvas, game)
 	document.addEventListener("keyup", this.keyUpHandler, false);
 	this.isWebKit = typeof navigator.userAgent.split("WebKit/")[1] !== "undefined";
 	this.isMozilla = navigator.appVersion.indexOf('Gecko/') >= 0 || ((navigator.userAgent.indexOf("Gecko") >= 0) && !this.isWebKit && (typeof navigator.appVersion !== "undefined"));
-}
+};
 
 Input.prototype.keyDown = function(e)
 {
@@ -52,8 +52,8 @@ Input.prototype.processKey = function(e, keyCode)
 	else if (keyCode == 39) { this.stopEvent(e); this.game.addKey(Key.right); } // right
 	else if (keyCode == 38) { this.stopEvent(e); this.game.addKey(Key.up);    } // up
 	else if (keyCode == 40) { this.stopEvent(e); this.game.addKey(Key.down);  } // down
-	else if (keyCode == 27) { this.stopEvent(e); this.game.addKey(Key.reset); } // esc
-	else if (keyCode == 32) { this.stopEvent(e); this.game.nextLevel();       } // space
+	else if (keyCode == 27) { this.stopEvent(e); this.game.addKey(Key.reset); } // escape
+	else if ((keyCode == 8) || (keyCode == 36)) { this.stopEvent(e); this.game.nextLevel(); } // backspace or delete
 	else if (!this.game.isAlive()) { this.stopEvent(e); this.game.addKey(Key.reset); }
 };
 
