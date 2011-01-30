@@ -3,8 +3,8 @@ var Position = function()
 {
 	if (arguments.length === 1) // copy constructor
 	{
-		this.x = arguments[0].x;	
-		this.y = arguments[0].y;	
+		this.x = arguments[0].x;
+		this.y = arguments[0].y;
 	}
 	if (arguments.length === 2) // (x, y)
 	{

@@ -94,7 +94,7 @@ Digger.prototype.interval = function()
 		{
 			this.level.soundTable[i] = false;
 		}
-		
+
 		// keyboard
 		for (i = 0; i < 4; i++)
 		{
@@ -113,7 +113,7 @@ Digger.prototype.interval = function()
 		else
 		{
 			this.level.move();
-		
+
 			// play sound
 			for (i = 0; i < this.level.soundTable.length; i++)
 			{
@@ -130,7 +130,7 @@ Digger.prototype.interval = function()
 			}
 		}
 	}
-	
+
 	this.score += this.level.score;
 	this.level.score = 0;
 

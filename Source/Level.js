@@ -2,7 +2,6 @@
 var Level = function(data)
 {
 	var i, x, y;
-	
 	var reader = new Base64Reader(data);
 
 	this.map = [];
@@ -15,8 +14,8 @@ var Level = function(data)
 		for (x = 0; x < 10; x++)
 		{
 			var b = reader.readByte();
-			this.map[x*2+1][y] = b & 0x0f;
-			this.map[x*2][y] = b >> 4;
+			this.map[x * 2 + 1][y] = b & 0x0f;
+			this.map[x * 2][y] = b >> 4;
 		}
 	}
 	for (i = 0; i < 5; i++)
@@ -52,7 +51,7 @@ var Level = function(data)
 					info = info >> 4;
 					ghost.lastTurn = Direction.left;
 				}
-				ghost.direction = (info < 4) ? [ Direction.down, Direction.up, Direction.right, Direction.left][info] : Direction.none;
+				ghost.direction = (info < 4) ? [Direction.down, Direction.up, Direction.right, Direction.left][info] : Direction.none;
 				this.ghosts.push(ghost);
 				this.map[x][y] = ghost;
 				index++;
@@ -92,26 +91,26 @@ Level.prototype.move = function()
 			{
 				dx = x;
 				dy = y;
-				if (this.map[x][y+1] === Sprite.nothing)
+				if (this.map[x][y + 1] === Sprite.nothing)
 				{
 					dy = y + 1;
 				}
 				else
 				{
-					if ((this.map[x][y+1] === Sprite.stone) || (this.map[x][y+1] === Sprite.diamond))
+					if ((this.map[x][y + 1] === Sprite.stone) || (this.map[x][y + 1] === Sprite.diamond))
 					{
-						if ((this.map[x-1][y+1] === Sprite.nothing) && (this.map[x-1][y] === Sprite.nothing))
+						if ((this.map[x - 1][y + 1] === Sprite.nothing) && (this.map[x - 1][y] === Sprite.nothing))
 						{
 							dx = x - 1;
 							dy = y + 1;
 						}
-						else if ((this.map[x+1][y+1] === Sprite.nothing) && (this.map[x+1][y] === Sprite.nothing))
+						else if ((this.map[x + 1][y + 1] === Sprite.nothing) && (this.map[x + 1][y] === Sprite.nothing))
 						{
 							dx = x + 1;
 							dy = y + 1;
 						}
 					}
-					if ((this.map[x][y+1] === Sprite.changer) && ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.uvstone)) && (this.map[x][y+2] === Sprite.nothing))
+					if ((this.map[x][y + 1] === Sprite.changer) && ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.uvstone)) && (this.map[x][y + 2] === Sprite.nothing))
 					{
 						dy = y + 2;
 					}
@@ -132,26 +131,26 @@ Level.prototype.move = function()
 			{
 				dx = x;
 				dy = y;
-				if (this.map[x][y+1] === Sprite.marker)
+				if (this.map[x][y + 1] === Sprite.marker)
 				{
 					dy = y + 1;
 				}
 				else
 				{
-					if ((this.map[x][y+1] === Sprite.stone) || (this.map[x][y+1] === Sprite.diamond) || (this.map[x][y+1] === Sprite.nothing))
+					if ((this.map[x][y + 1] === Sprite.stone) || (this.map[x][y + 1] === Sprite.diamond) || (this.map[x][y + 1] === Sprite.nothing))
 					{
-						if ((this.map[x-1][y+1] === Sprite.marker) && ((this.map[x-1][y] === Sprite.nothing) || (this.map[x-1][y] === Sprite.marker)))
+						if ((this.map[x - 1][y + 1] === Sprite.marker) && ((this.map[x - 1][y] === Sprite.nothing) || (this.map[x - 1][y] === Sprite.marker)))
 						{
 							dx = x - 1;
 							dy = y + 1;
 						}
-						else if ((this.map[x+1][y+1] === Sprite.marker) && ((this.map[x+1][y] === Sprite.nothing) || (this.map[x+1][y] === Sprite.marker)))
+						else if ((this.map[x + 1][y + 1] === Sprite.marker) && ((this.map[x + 1][y] === Sprite.nothing) || (this.map[x + 1][y] === Sprite.marker)))
 						{
 							dx = x + 1;
 							dy = y + 1;
 						}
 					}
-					if ((this.map[x][y+1] === Sprite.changer) && ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.uvstone)) && (this.map[x][y+2] === Sprite.marker))
+					if ((this.map[x][y + 1] === Sprite.changer) && ((this.map[x][y] === Sprite.stone) || (this.map[x][y] === Sprite.uvstone)) && (this.map[x][y + 2] === Sprite.marker))
 					{
 						dy = y + 2;
 					}
@@ -384,10 +383,10 @@ Level.prototype.moveGhost = function(ghost)
 					}
 					if (this.map[d.x][d.y] === Sprite.nothing)
 					{
-						if (d.x < p.x) { ghost.direction = Direction.left;  }
+						if (d.x < p.x) { ghost.direction = Direction.left; }
 						if (d.x > p.x) { ghost.direction = Direction.right; }
-						if (d.y < p.y) { ghost.direction = Direction.up;    }
-						if (d.y > p.y) { ghost.direction = Direction.down;  }
+						if (d.y < p.y) { ghost.direction = Direction.up; }
+						if (d.y > p.y) { ghost.direction = Direction.down; }
 						this.placeGhost(d.x, d.y, ghost);
 						this.map[p.x][p.y] = Sprite.nothing;
 						return;
@@ -499,4 +498,4 @@ Level.prototype.killGhost = function(ghost)
 		}
 		ghost.alive = false;
 	}
-};	
+};

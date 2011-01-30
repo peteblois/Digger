@@ -20,14 +20,14 @@ Loader.prototype.loadAudioData = function(data)
 Loader.prototype.start = function(callback)
 {
 	var i;
-	
+
 	for (i = 0; i < this.audioData.length; i++)
 	{
 		var audio = document.createElement('audio');
-		if ((audio !== null) && (audio.canPlayType("audio/wav")))
+		if ((audio !== null) && (audio.canPlayType('audio/wav')))
 		{
-			audio.src = "data:audio/wav;base64," + this.audioData[i];
-			audio.preload = "auto";
+			audio.src = 'data:audio/wav;base64,' + this.audioData[i];
+			audio.preload = 'auto';
 			audio.load();
 		}
 		this.audioData[i] = audio;
@@ -48,7 +48,7 @@ Loader.prototype.start = function(callback)
 	{
 		var image = new Image();
 		image.onload = onload;
-		image.src = "data:image/png;base64," + this.imageData[i];
+		image.src = 'data:image/png;base64,' + this.imageData[i];
 		this.imageData[i] = image;
 	}	
 };

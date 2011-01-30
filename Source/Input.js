@@ -24,7 +24,7 @@ var Input = function(canvas, game)
 
 Input.prototype.keyDown = function(e)
 {
-	if (!this.isMozilla)
+	if (!this.isMozilla && !e.ctrlKey && !e.altKey && !e.altKey && !e.metaKey)
 	{
 		this.processKey(e, e.keyCode);
 	}
@@ -32,7 +32,7 @@ Input.prototype.keyDown = function(e)
 
 Input.prototype.keyPress = function(e)
 {
-	if (this.isMozilla)
+	if (this.isMozilla && !e.ctrlKey && !e.altKey && !e.altKey && !e.metaKey)
 	{
 		this.processKey(e, (e.keyCode != 0) ? e.keyCode : (e.charCode === 32) ? 32 : 0);
 	}

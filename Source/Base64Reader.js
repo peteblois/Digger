@@ -1,7 +1,7 @@
 
 var Base64Reader = function(data)
-{ 
-	this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+{
+	this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 	this.data = data;
 	this.position = 0;
 	this.bits = 0;
@@ -21,7 +21,7 @@ Base64Reader.prototype.readByte = function()
 			{
 				this.bits = (this.bits << 6) | index;
 			}
-			else 
+			else
 			{
 				this.bits <<= 6;
 				tailBits += 6;
