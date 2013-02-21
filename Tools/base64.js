@@ -3,7 +3,7 @@ var fs = require("fs");
 
 var arguments = process.argv.splice(2);
 
-if (arguments.length <= 3)
+if (arguments.length < 3)
 {
 	console.log("JavaScript Base64 Resource Converter, Version 1.0");
  	console.log("Converts binary files to JavaScript base64 array and appends to output file.");
