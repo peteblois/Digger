@@ -9,8 +9,8 @@ module Digger
 		private _isMozilla: bool;
 		private _mouseDownHandler: (e: MouseEvent) => void;
 		private _touchStartHandler: (e: TouchEvent) => void;
-		private _touchEndHandler: (e: TouchEvent) => void;;
-		private _touchMoveHandler: (e: TouchEvent) => void;;
+		private _touchEndHandler: (e: TouchEvent) => void;
+		private _touchMoveHandler: (e: TouchEvent) => void;
 		private _keyDownHandler: (e: KeyboardEvent) => void;
 		private _keyPressHandler: (e: KeyboardEvent) => void;
 		private _keyUpHandler: (e: KeyboardEvent) => void;
@@ -170,7 +170,7 @@ module Digger
 					if (direction !== null)
 					{
 						this._touchPosition = new Position(x, y);			
-						for (var i = Key.left; i <= Key.down; i++)
+						for (var i: number = Key.left; i <= Key.down; i++)
 						{
 							if (direction == i)
 							{
