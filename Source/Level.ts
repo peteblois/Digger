@@ -9,7 +9,7 @@ module Digger
 		private _score: number;
 		private _ghosts: Ghost[];
 		private _player: Player;
-		private _soundTable: bool[];
+		private _soundTable: boolean[];
 
 		constructor(data: string)
 		{
@@ -83,7 +83,7 @@ module Digger
 			return this._collected;
 		}
 
-		public get isPlayerAlive(): bool
+		public get isPlayerAlive(): boolean
 		{
 			return this._player.alive;
 		}
@@ -113,7 +113,7 @@ module Digger
 			this._soundTable = [ false, false, false ];
 		}
 
-		public playSound(sound: Sound): bool
+		public playSound(sound: Sound): boolean
 		{
 			return this._soundTable[sound];
 		}
@@ -242,7 +242,7 @@ module Digger
 			}
 		}
 
-		public movePlayer(keys: bool[]): bool
+		public movePlayer(keys: boolean[]): boolean
 		{
 			if (this._player.alive)
 			{
@@ -340,7 +340,7 @@ module Digger
 			return false;
 		}
 
-		private isPlayer(x: number, y: number): bool
+		private isPlayer(x: number, y: number): boolean
 		{
 			return (this._map[x][y] === Sprite.player);
 		}
@@ -352,7 +352,7 @@ module Digger
 			this._player.position.y = y;
 		}
 
-		private isGhost(x: number, y: number): bool
+		private isGhost(x: number, y: number): boolean
 		{
 			return (this._map[x][y] == Sprite.ghost90L) || (this._map[x][y] == Sprite.ghost90R) || (this._map[x][y] == Sprite.ghost90LR) || (this._map[x][y] == Sprite.ghost180);
 		}

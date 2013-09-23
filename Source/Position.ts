@@ -11,7 +11,7 @@ module Digger
 			this.y = y;
 		}
 
-		public equals(position: Position): bool
+		public equals(position: Position): boolean
 		{
 			return (this.x == position.x) && (this.y == position.y);
 		}

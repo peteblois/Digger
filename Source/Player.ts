@@ -4,9 +4,9 @@ module Digger
 	{
 		private _position: Position;
 		private _direction: Direction = Direction.none;
-		private _stone: bool[] = [false, false];
+		private _stone: boolean[] = [false, false];
 		private _step: number = 0;
-		private _alive: bool = true;
+		private _alive: boolean = true;
 
 		constructor(position: Position)
 		{
@@ -23,7 +23,7 @@ module Digger
 			return this._position;
 		}
 
-		public get alive(): bool
+		public get alive(): boolean
 		{
 			return this._alive;
 		}
@@ -38,7 +38,7 @@ module Digger
 			this._direction = value;
 		}
 
-		public get stone(): bool[]
+		public get stone(): boolean[]
 		{
 			return this._stone;
 		}

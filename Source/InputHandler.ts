@@ -5,8 +5,8 @@ module Digger
 		private _canvas: HTMLCanvasElement;
 		private _game: Game;
 		private _touchPosition: Position;
-		private _isWebKit: bool;
-		private _isMozilla: bool;
+		private _isWebKit: boolean;
+		private _isMozilla: boolean;
 		private _mouseDownHandler: (e: MouseEvent) => void;
 		private _touchStartHandler: (e: TouchEvent) => void;
 		private _touchEndHandler: (e: TouchEvent) => void;

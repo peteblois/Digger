@@ -17,8 +17,8 @@ module Digger
 		private _score: number;
 		private _lives: number;
 		private _room: number;
-		private _keysRelease: bool[];
-		private _keys: bool[];
+		private _keysRelease: boolean[];
+		private _keys: boolean[];
 
 		constructor(canvas: HTMLCanvasElement)
 		{
@@ -139,7 +139,7 @@ module Digger
 			}
 		}
 
-		public isPlayerAlive(): bool
+		public isPlayerAlive(): boolean
 		{
 			return (this._level === null) || (this._level.isPlayerAlive);
 		}

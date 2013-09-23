@@ -6,7 +6,7 @@ module Digger
 		private _type: Sprite;
 		private _direction: Direction;
 		private _lastTurn: Direction;
-		private _alive: bool = true;
+		private _alive: boolean = true;
 
 		constructor(position: Position, type: Sprite, direction: Direction, lastTurn: Direction)
 		{
@@ -21,7 +21,7 @@ module Digger
 			this._alive = false;
 		}
 
-		public get alive(): bool
+		public get alive(): boolean
 		{
 			return this._alive;
 		}
