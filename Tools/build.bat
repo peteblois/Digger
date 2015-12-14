@@ -13,7 +13,7 @@ echo Building 'Debug/digger.js'
 
 set Source=
 for %%i in ("../Source/*.ts") do call set Source=%%Source%% ../Source/%%i
-node tsc.js -target ES5 -out ..\Build\Debug\digger.js lib.d.ts libex.d.ts %Source%
+node tsc.js -target ES5 -out ..\Build\Debug\digger.js lib.d.ts %Source%
 
 node base64.js ../Build/Debug/digger.js Digger.Game.prototype.imageData ../Source/Sprite.png ../Source/Font.png
 node base64.js ../Build/Debug/digger.js Digger.Game.prototype.soundData ../Source/Diamond.wav ../Source/Stone.wav ../Source/Step.wav
