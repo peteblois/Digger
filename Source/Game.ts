@@ -26,6 +26,10 @@ module Digger
             this._canvas.focus();
 
             this._context = canvas.getContext("2d");
+            // this._context.webkitImageSmoothingEnabled = false;
+            // this._context.mozImageSmoothingEnabled = false;
+            // this._context.imageSmoothingEnabled = false;
+            // this._context.scale(2, 2);
             this._context.fillStyle = "#00ffff"; 
             this._context.fillRect(0,  2, 320, 4);
             this._context.fillRect(0, 26, 320, 4);

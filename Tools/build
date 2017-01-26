@@ -10,8 +10,8 @@ rm -f -r ../Build/Release
 mkdir -p ../Build/Debug
 mkdir -p ../Build/Release
 
-cp ../Source/Default.html ../Build/Debug/default.html
-cp ../Source/Default.html ../Build/Release/default.html
+cp ../Source/index.html ../Build/Debug/index.html
+cp ../Source/index.html ../Build/Release/index.html
 
 echo Building \'Debug/digger.js\'
 
