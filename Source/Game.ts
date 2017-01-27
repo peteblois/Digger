@@ -26,15 +26,11 @@ module Digger
             this._canvas.focus();
 
             this._context = canvas.getContext("2d");
-            // this._context.webkitImageSmoothingEnabled = false;
-            // this._context.mozImageSmoothingEnabled = false;
-            // this._context.imageSmoothingEnabled = false;
-            // this._context.scale(2, 2);
             this._context.fillStyle = "#00ffff"; 
-            this._context.fillRect(0,  2, 320, 4);
-            this._context.fillRect(0, 26, 320, 4);
+            this._context.fillRect(0,  2 * 2, 320 * 2, 4 * 2);
+            this._context.fillRect(0, 26 * 2, 320 * 2, 4 * 2);
             this._context.fillStyle = "#920205"; 
-            this._context.fillRect(0, 8, 320, 16);
+            this._context.fillRect(0, 8 * 2, 320 * 2, 16 * 2);
 
             for (var i = 0; i < this.soundData.length; i++)
             {
@@ -221,7 +217,7 @@ module Digger
                     if (this._screenTable[x][y] != spriteIndex)
                     {
                         this._screenTable[x][y] = spriteIndex;
-                        this._context.drawImage(this._imageTable[0], spriteIndex * 16, 0, 16, 16, x * 16, y * 16 + 32, 16, 16);
+                        this._context.drawImage(this._imageTable[0], spriteIndex * 16 * 2, 0, 16 * 2, 16 * 2, x * 16 * 2, y * (16 * 2) + (32 * 2), 16 * 2, 16 * 2);
                     }
                 }
             }
@@ -232,8 +228,8 @@ module Digger
             for (var i = 0; i < text.length; i++)
             {
                 var index: number = text.charCodeAt(i) - 32;
-                this._context.fillRect(x, y, 8, 8);
-                this._context.drawImage(this._imageTable[1], 0, index * 8, 8, 8, x, y, 8, 8);
+                this._context.fillRect(x * 2, y * 2, 8 * 2, 8 * 2);
+                this._context.drawImage(this._imageTable[1], 0, index * 8 * 2, 8 * 2, 8 * 2, x * 2, y * 2, 8 * 2, 8 * 2);
                 x += 8;
             }   
         }
