@@ -13,15 +13,13 @@ mkdir -p ../Build/Release
 cp ../Source/index.html ../Build/Debug/index.html
 cp ../Source/index.html ../Build/Release/index.html
 
-echo Building \'Debug/digger.js\'
+echo $(tput bold)Building Debug/digger.js$(tput sgr0)
 
-node ${typescript}/tsc.js -target ES5 -out ../Build/Debug/digger.js ${typescript}/lib.d.ts ../Source/*.ts
+node ${typescript}/tsc.js -target ES5 -out ../Build/Debug/digger.js ./libex.d.ts ../Source/*.ts
 
 node base64.js ../Build/Debug/digger.js Digger.Game.prototype.imageData ../Source/Sprite.png ../Source/Font.png
 node base64.js ../Build/Debug/digger.js Digger.Game.prototype.soundData ../Source/Diamond.wav ../Source/Stone.wav ../Source/Step.wav
 
-echo Building \'Release/digger.js\'
+echo $(tput bold)Building Release/digger.js$(tput sgr0)
 
 node minify.js ../Build/Debug/digger.js ../Build/Release/digger.js
-
-echo Done.

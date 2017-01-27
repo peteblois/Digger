@@ -1,3 +1,4 @@
+.DS_Store
 Build/Debug/
 Build/Release/
 Tools/node_modules/

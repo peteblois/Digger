@@ -9,7 +9,7 @@ module Digger
         private _context: CanvasRenderingContext2D;
         private _screenTable: number[][];
         private _imageTable: HTMLImageElement[] = [];
-        private _soundTable: HTMLAudioElement[] = [];
+        private _soundPlayer: SoundPlayer;
         private _inputHandler: InputHandler;
         private _level: Level;
         private _tick: number;
@@ -32,17 +32,7 @@ module Digger
             this._context.fillStyle = "#920205"; 
             this._context.fillRect(0, 8 * 2, 320 * 2, 16 * 2);
 
-            for (var i = 0; i < this.soundData.length; i++)
-            {
-                var audio: HTMLAudioElement = <HTMLAudioElement> document.createElement('audio');
-                if ((audio !== null) && (audio.canPlayType('audio/wav')))
-                {
-                    audio.src = 'data:audio/wav;base64,' + this.soundData[i];
-                    audio.preload = 'auto';
-                    audio.load();
-                }
-                this._soundTable[i] = audio;
-            }
+            this._soundPlayer = new SoundPlayer(this.soundData);
 
             var imageIndex = 0;
             var imageCount = this.imageData.length;
@@ -55,7 +45,7 @@ module Digger
                 }
             }
 
-            for (i = 0; i < this.imageData.length; i++)
+            for (var i = 0; i < this.imageData.length; i++)
             {
                 var image: HTMLImageElement = new Image();
                 image.onload = onload;
@@ -176,14 +166,8 @@ module Digger
                     // play sound
                     for (var i: number = 0; i < this.soundData.length; i++)
                     {
-                        if (this._soundTable[i] && this._level.playSound(i))
+                        if (this._level.playSound(i) && this._soundPlayer.play(i))
                         {
-                            if (!!this._soundTable[i].currentTime)
-                            {
-                                this._soundTable[i].pause();
-                                this._soundTable[i].currentTime = 0;
-                            }
-                            this._soundTable[i].play();
                             break;
                         }
                     }
