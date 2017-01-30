@@ -15,10 +15,18 @@ cp ../Source/index.html ../Build/Release/index.html
 
 echo $(tput bold)Building Debug/digger.js$(tput sgr0)
 
-node ${typescript}/tsc.js -target ES5 -out ../Build/Debug/digger.js ./libex.d.ts ../Source/*.ts
+cat << EOF >> ../Build/Debug/data.ts
+var spriteImageData = "$(base64 ../Source/Sprite.png)";
+var spriteImageData = "$(base64 ../Source/Sprite.png)";
+var fontImageData = "$(base64 ../Source/Font.png)";
+var diamondSoundData = "$(base64 ../Source/Diamond.wav)";
+var stoneSoundData = "$(base64 ../Source/Stone.wav)";
+var stepSoundData = "$(base64 ../Source/Step.wav)";
+EOF
 
-node base64.js ../Build/Debug/digger.js Digger.Game.prototype.imageData ../Source/Sprite.png ../Source/Font.png
-node base64.js ../Build/Debug/digger.js Digger.Game.prototype.soundData ../Source/Diamond.wav ../Source/Stone.wav ../Source/Step.wav
+node ${typescript}/tsc.js -target ES5 -out ../Build/Debug/digger.js ./libex.d.ts ../Source/*.ts ../Build/Debug/data.ts
+
+rm ../Build/Debug/data.ts
 
 echo $(tput bold)Building Release/digger.js$(tput sgr0)
 

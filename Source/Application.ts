@@ -1,14 +1,12 @@
 module Digger
 {
-    export class Game
+    export class Application
     {
-        public imageData: string[];
-        public soundData: string[];
-        public levelData: string[];
         private _canvas: HTMLCanvasElement;
         private _context: CanvasRenderingContext2D;
         private _screenTable: number[][];
-        private _imageTable: HTMLImageElement[] = [];
+        private _fontImage: HTMLImageElement;
+        private _spriteImage: HTMLImageElement;
         private _soundPlayer: SoundPlayer;
         private _inputHandler: InputHandler;
         private _level: Level;
@@ -32,26 +30,28 @@ module Digger
             this._context.fillStyle = "#920205"; 
             this._context.fillRect(0, 8 * 2, 320 * 2, 16 * 2);
 
-            this._soundPlayer = new SoundPlayer(this.soundData);
+            this._soundPlayer = new SoundPlayer();
+            this._soundPlayer.load("diamond", diamondSoundData);
+            this._soundPlayer.load("stone", stoneSoundData);
+            this._soundPlayer.load("step", stepSoundData);
 
-            var imageIndex = 0;
-            var imageCount = this.imageData.length;
-            var onload = () =>
-            {
-                imageIndex++;
-                if (imageIndex === imageCount)
-                {
-                    this.start();
-                }
-            }
+            var self = this;
+            self.loadImage(fontImageData, function(fontImage) {
+                self._fontImage = fontImage;
+                self.loadImage(spriteImageData, function(spriteImage) {
+                    self._spriteImage = spriteImage;
+                    self.start();
+                });
+            })
+        }
 
-            for (var i = 0; i < this.imageData.length; i++)
-            {
-                var image: HTMLImageElement = new Image();
-                image.onload = onload;
-                image.src = 'data:image/png;base64,' + this.imageData[i];
-                this._imageTable[i] = image;
-            }
+        private loadImage(data: string, callback: (HTMLImageElement) => void)
+        {
+            var image: HTMLImageElement = new Image();
+            image.onload = function() {
+                callback(image);
+            };
+            image.src = 'data:image/png;base64,' + data;
         }
 
         private start()
@@ -113,7 +113,7 @@ module Digger
 
         private loadLevel()
         {
-            this._level = new Level(this.levelData[this._room]);
+            this._level = new Level(levelData[this._room]);
             this._keys = [ false, false, false, false ];
             this._keysRelease = [ false, false, false, false ];
             this._tick = 0;
@@ -122,7 +122,7 @@ module Digger
 
         public nextLevel()
         {
-            if (this._room < (this.levelData.length - 1))
+            if (this._room < (levelData.length - 1))
             {
                 this._room++;
                 this.loadLevel();
@@ -164,9 +164,10 @@ module Digger
                     this._level.move();
 
                     // play sound
-                    for (var i: number = 0; i < this.soundData.length; i++)
+                    var soundTable = [ "diamond", "stone", "step" ];
+                    for (var i: number = 0; i < soundTable.length; i++)
                     {
-                        if (this._level.playSound(i) && this._soundPlayer.play(i))
+                        if (this._level.playSound(i) && this._soundPlayer.play(soundTable[i]))
                         {
                             break;
                         }
@@ -201,7 +202,7 @@ module Digger
                     if (this._screenTable[x][y] != spriteIndex)
                     {
                         this._screenTable[x][y] = spriteIndex;
-                        this._context.drawImage(this._imageTable[0], spriteIndex * 16 * 2, 0, 16 * 2, 16 * 2, x * 16 * 2, y * (16 * 2) + (32 * 2), 16 * 2, 16 * 2);
+                        this._context.drawImage(this._spriteImage, spriteIndex * 16 * 2, 0, 16 * 2, 16 * 2, x * 16 * 2, y * (16 * 2) + (32 * 2), 16 * 2, 16 * 2);
                     }
                 }
             }
@@ -213,7 +214,7 @@ module Digger
             {
                 var index: number = text.charCodeAt(i) - 32;
                 this._context.fillRect(x * 2, y * 2, 8 * 2, 8 * 2);
-                this._context.drawImage(this._imageTable[1], 0, index * 8 * 2, 8 * 2, 8 * 2, x * 2, y * 2, 8 * 2, 8 * 2);
+                this._context.drawImage(this._fontImage, 0, index * 8 * 2, 8 * 2, 8 * 2, x * 2, y * 2, 8 * 2, 8 * 2);
                 x += 8;
             }   
         }

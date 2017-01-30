@@ -40,7 +40,8 @@ module Digger
                 reader.readByte();
             }
 
-            this._player = new Player(new Position(reader.readByte(), reader.readByte() - 2));
+            var position = new Position(reader.readByte(), reader.readByte() - 2);
+            this._player = new Player(position);
             this._map[this._player.position.x][this._player.position.y] = Sprite.player;
             this._diamonds = reader.readByte();
             this._diamonds = (this._diamonds >> 4) * 10 + (this._diamonds & 0x0f);

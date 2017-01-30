@@ -3,7 +3,7 @@ module Digger
     export class InputHandler
     {
         private _canvas: HTMLCanvasElement;
-        private _game: Game;
+        private _application: Application;
         private _touchPosition: Position;
         private _isWebKit: boolean;
         private _isMozilla: boolean;
@@ -15,10 +15,10 @@ module Digger
         private _keyPressHandler: (e: KeyboardEvent) => void;
         private _keyUpHandler: (e: KeyboardEvent) => void;
 
-        constructor(canvas: HTMLCanvasElement, game: Game)
+        constructor(canvas: HTMLCanvasElement, application: Application)
         {
             this._canvas = canvas;
-            this._game = game;
+            this._application = application;
 
             this._mouseDownHandler = (e: MouseEvent) => { this.mouseDown(e); };
             this._touchStartHandler = (e: TouchEvent) => { this.touchStart(e); };
@@ -62,16 +62,16 @@ module Digger
             switch (e.keyCode)
             {
                 case 37: 
-                    this._game.removeKey(Key.left);
+                    this._application.removeKey(Key.left);
                     break;
                 case 39:
-                    this._game.removeKey(Key.right);
+                    this._application.removeKey(Key.right);
                     break;
                 case 38:
-                    this._game.removeKey(Key.up);
+                    this._application.removeKey(Key.up);
                     break;
                 case 40:
-                    this._game.removeKey(Key.down);
+                    this._application.removeKey(Key.down);
                     break;
             }
         }
@@ -82,34 +82,34 @@ module Digger
             {
                 case 37: // left
                     this.stopEvent(e);
-                    this._game.addKey(Key.left);
+                    this._application.addKey(Key.left);
                     break;
                 case 39: // right
                     this.stopEvent(e);
-                    this._game.addKey(Key.right);
+                    this._application.addKey(Key.right);
                     break;
                 case 38: // up
                     this.stopEvent(e);
-                    this._game.addKey(Key.up);
+                    this._application.addKey(Key.up);
                     break;
                 case 40: // down
                     this.stopEvent(e);
-                    this._game.addKey(Key.down);
+                    this._application.addKey(Key.down);
                     break;
                 case 27: // escape
                     this.stopEvent(e);
-                    this._game.addKey(Key.reset);
+                    this._application.addKey(Key.reset);
                     break;
                 case 8: // backspace
                 case 36: // delete
                     this.stopEvent(e);
-                    this._game.nextLevel();
+                    this._application.nextLevel();
                     break;
                 default:
-                    if (!this._game.isPlayerAlive())
+                    if (!this._application.isPlayerAlive())
                     {
                         this.stopEvent(e);
-                        this._game.addKey(Key.reset); 
+                        this._application.addKey(Key.reset); 
                     }
                     break;
             }
@@ -126,11 +126,11 @@ module Digger
             e.preventDefault();
             if (e.touches.length > 3) // 4 finger touch = jump to next level
             {
-                this._game.nextLevel();
+                this._application.nextLevel();
             }
-            else if ((e.touches.length > 2) || (!this._game.isPlayerAlive())) // 3 finger touch = restart current level
+            else if ((e.touches.length > 2) || (!this._application.isPlayerAlive())) // 3 finger touch = restart current level
             {
-                this._game.addKey(Key.reset);
+                this._application.addKey(Key.reset);
             }
             else
             {
@@ -174,11 +174,11 @@ module Digger
                         {
                             if (direction == i)
                             {
-                                this._game.addKey(i);
+                                this._application.addKey(i);
                             }
                             else
                             { 
-                                this._game.removeKey(i);
+                                this._application.removeKey(i);
                             }
                         }
                     }
@@ -190,10 +190,10 @@ module Digger
         {
             e.preventDefault();
             this._touchPosition = null;
-            this._game.removeKey(Key.left);
-            this._game.removeKey(Key.right);
-            this._game.removeKey(Key.up);
-            this._game.removeKey(Key.down);
+            this._application.removeKey(Key.left);
+            this._application.removeKey(Key.right);
+            this._application.removeKey(Key.up);
+            this._application.removeKey(Key.down);
         }
 
         private stopEvent(e: Event)
