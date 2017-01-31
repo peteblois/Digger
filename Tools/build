@@ -5,16 +5,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 npm install
 typescript=./node_modules/typescript/lib
 
-rm -f -r ../Build/Debug
-rm -f -r ../Build/Release
+rm -f -r ../Build
+
+echo $(tput bold)Building Debug$(tput sgr0)
 mkdir -p ../Build/Debug
-mkdir -p ../Build/Release
-
 cp ../Source/index.html ../Build/Debug/index.html
-cp ../Source/index.html ../Build/Release/index.html
-
-echo $(tput bold)Building Debug/digger.js$(tput sgr0)
-
 cat << EOF >> ../Build/Debug/data.ts
 var spriteImageData = "$(base64 ../Source/Sprite.gif)";
 var fontImageData = "$(base64 ../Source/Font.gif)";
@@ -22,11 +17,10 @@ var diamondSoundData = "$(base64 ../Source/Diamond.wav)";
 var stoneSoundData = "$(base64 ../Source/Stone.wav)";
 var stepSoundData = "$(base64 ../Source/Step.wav)";
 EOF
-
 node ${typescript}/tsc.js -target ES5 -out ../Build/Debug/digger.js ./libex.d.ts ../Source/*.ts ../Build/Debug/data.ts
-
 rm ../Build/Debug/data.ts
 
-echo $(tput bold)Building Release/digger.js$(tput sgr0)
-
+echo $(tput bold)Building Release$(tput sgr0)
+mkdir -p ../Build/Release
+cp ../Source/index.html ../Build/Release/index.html
 node minify.js ../Build/Debug/digger.js ../Build/Release/digger.js
