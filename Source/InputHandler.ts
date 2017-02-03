@@ -5,8 +5,6 @@ module Digger
         private _canvas: HTMLCanvasElement;
         private _application: Application;
         private _touchPosition: Position;
-        private _isWebKit: boolean;
-        private _isMozilla: boolean;
         private _mouseDownHandler: (e: MouseEvent) => void;
         private _touchStartHandler: (e: TouchEvent) => void;
         private _touchEndHandler: (e: TouchEvent) => void;
@@ -34,26 +32,48 @@ module Digger
             this._canvas.addEventListener("mousedown", this._mouseDownHandler, false);
             
             document.addEventListener("keydown", this._keyDownHandler, false);
-            document.addEventListener("keypress", this._keyPressHandler, false);
             document.addEventListener("keyup", this._keyUpHandler, false);
-
-            this._isWebKit = typeof navigator.userAgent.split("WebKit/")[1] !== "undefined";
-            this._isMozilla = navigator.appVersion.indexOf('Gecko/') >= 0 || ((navigator.userAgent.indexOf("Gecko") >= 0) && !this._isWebKit && (typeof navigator.appVersion !== "undefined"));
         }
 
         private keyDown(e: KeyboardEvent)
         {
-            if (!this._isMozilla && !e.ctrlKey && !e.altKey && !e.altKey && !e.metaKey)
+            if (!e.ctrlKey && !e.altKey && !e.altKey && !e.metaKey)
             {
-                this.processKey(e, e.keyCode);
-            }
-        }
-
-        private keyPress(e: KeyboardEvent)
-        {
-            if (this._isMozilla && !e.ctrlKey && !e.altKey && !e.altKey && !e.metaKey)
-            {
-                this.processKey(e, (e.keyCode != 0) ? e.keyCode : (e.charCode === 32) ? 32 : 0);
+                switch (e.keyCode)
+                {
+                    case 37: // left
+                        this.stopEvent(e);
+                        this._application.addKey(Key.left);
+                        break;
+                    case 39: // right
+                        this.stopEvent(e);
+                        this._application.addKey(Key.right);
+                        break;
+                    case 38: // up
+                        this.stopEvent(e);
+                        this._application.addKey(Key.up);
+                        break;
+                    case 40: // down
+                        this.stopEvent(e);
+                        this._application.addKey(Key.down);
+                        break;
+                    case 27: // escape
+                        this.stopEvent(e);
+                        this._application.addKey(Key.reset);
+                        break;
+                    case 8: // backspace
+                    case 36: // delete
+                        this.stopEvent(e);
+                        this._application.nextLevel();
+                        break;
+                    default:
+                        if (!this._application.isPlayerAlive())
+                        {
+                            this.stopEvent(e);
+                            this._application.addKey(Key.reset); 
+                        }
+                        break;
+                }
             }
         }
 
@@ -72,45 +92,6 @@ module Digger
                     break;
                 case 40:
                     this._application.removeKey(Key.down);
-                    break;
-            }
-        }
-
-        private processKey(e: KeyboardEvent, keyCode)
-        {
-            switch (e.keyCode)
-            {
-                case 37: // left
-                    this.stopEvent(e);
-                    this._application.addKey(Key.left);
-                    break;
-                case 39: // right
-                    this.stopEvent(e);
-                    this._application.addKey(Key.right);
-                    break;
-                case 38: // up
-                    this.stopEvent(e);
-                    this._application.addKey(Key.up);
-                    break;
-                case 40: // down
-                    this.stopEvent(e);
-                    this._application.addKey(Key.down);
-                    break;
-                case 27: // escape
-                    this.stopEvent(e);
-                    this._application.addKey(Key.reset);
-                    break;
-                case 8: // backspace
-                case 36: // delete
-                    this.stopEvent(e);
-                    this._application.nextLevel();
-                    break;
-                default:
-                    if (!this._application.isPlayerAlive())
-                    {
-                        this.stopEvent(e);
-                        this._application.addKey(Key.reset); 
-                    }
                     break;
             }
         }
