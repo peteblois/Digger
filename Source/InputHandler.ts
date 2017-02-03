@@ -10,7 +10,6 @@ module Digger
         private _touchEndHandler: (e: TouchEvent) => void;
         private _touchMoveHandler: (e: TouchEvent) => void;
         private _keyDownHandler: (e: KeyboardEvent) => void;
-        private _keyPressHandler: (e: KeyboardEvent) => void;
         private _keyUpHandler: (e: KeyboardEvent) => void;
 
         constructor(canvas: HTMLCanvasElement, application: Application)
@@ -23,7 +22,6 @@ module Digger
             this._touchEndHandler = (e: TouchEvent) => { this.touchEnd(e); };
             this._touchMoveHandler = (e: TouchEvent) => { this.touchMove(e); };
             this._keyDownHandler = (e: KeyboardEvent) => { this.keyDown(e); };
-            this._keyPressHandler = (e: KeyboardEvent) => { this.keyPress(e); };
             this._keyUpHandler = (e: KeyboardEvent) => { this.keyUp(e); };
 
             this._canvas.addEventListener("touchstart", this._touchStartHandler, false);
