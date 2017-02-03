@@ -9,13 +9,17 @@ rm -f -r ../Build
 
 echo $(tput bold)Building Debug$(tput sgr0)
 mkdir -p ../Build/Debug
+wrap="--wrap=0"
+if [ $(uname -s) = "Darwin" ]; then
+    wrap=""
+fi
 cp ../Source/index.html ../Build/Debug/index.html
 cat << EOF >> ../Build/Debug/data.ts
-var spriteImageData = "$(base64 ../Source/Sprite.gif)";
-var fontImageData = "$(base64 ../Source/Font.gif)";
-var diamondSoundData = "$(base64 ../Source/Diamond.wav)";
-var stoneSoundData = "$(base64 ../Source/Stone.wav)";
-var stepSoundData = "$(base64 ../Source/Step.wav)";
+var spriteImageData = "$(base64 ../Source/Sprite.gif ${wrap})";
+var fontImageData = "$(base64 ../Source/Font.gif ${wrap})";
+var diamondSoundData = "$(base64 ../Source/Diamond.wav ${wrap})";
+var stoneSoundData = "$(base64 ../Source/Stone.wav ${wrap})";
+var stepSoundData = "$(base64 ../Source/Step.wav ${wrap})";
 EOF
 node ${typescript}/tsc.js -target ES5 -out ../Build/Debug/digger.js ./libex.d.ts ../Source/*.ts ../Build/Debug/data.ts
 rm ../Build/Debug/data.ts
