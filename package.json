@@ -1,15 +1,20 @@
 {
   "private": true,
   "scripts": {
-    "build": "gulp"
+    "build": "gulp",
+    "webpack": "webpack"
   },
-  "devDependencies": [
-    "typescript",
-    "gulp",
-    "gulp-transform",
-    "gulp-rename",
-    "gulp-merge",
-    "gulp-typescript",
-    "gulp-uglify"
-  ]
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.0.0-beta.19",
+    "gulp": "^3.9.1",
+    "gulp-merge": "^0.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-transform": "^1.1.0",
+    "gulp-typescript": "^3.1.4",
+    "gulp-uglify": "^2.0.1",
+    "source-map-loader": "^0.1.6",
+    "typescript": "^2.1.5",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1"
+  }
 }

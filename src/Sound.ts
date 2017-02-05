@@ -1,9 +1,6 @@
-module Digger
+export enum Sound
 {
-    export enum Sound
-    {
-        diamond = 0,
-        stone = 1,
-        step = 2
-    }
+    diamond = 0,
+    stone = 1,
+    step = 2
 }

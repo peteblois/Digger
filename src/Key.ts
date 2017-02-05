@@ -1,11 +1,8 @@
-module Digger
+export enum Key
 {
-    export enum Key
-    {
-        left = 0,
-        right = 1,
-        up = 2,
-        down = 3,
-        reset = 4
-    }
+    left = 0,
+    right = 1,
+    up = 2,
+    down = 3,
+    reset = 4
 }
