@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "gulp"
+  },
+  "devDependencies": [
+    "typescript",
+    "gulp",
+    "gulp-transform",
+    "gulp-rename",
+    "gulp-merge",
+    "gulp-typescript",
+    "gulp-uglify"
+  ]
+}
